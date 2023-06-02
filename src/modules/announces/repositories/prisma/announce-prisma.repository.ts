@@ -4,13 +4,19 @@ import { CreateAnnounceDto } from "../../dto/create-announce.dto";
 import { UpdateAnnounceDto } from "../../dto/update-announce.dto";
 import { Announce } from "../../entities/announce.entity";
 import { PrismaService } from "src/server/prisma.service";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class AnnouncePrismaRepository implements AnnounceRepository {
 	constructor(private prisma: PrismaService) {}
 
 	async create(data: CreateAnnounceDto): Promise<Announce> {
-		throw new Error("Method not implemented.");
+		const announce: Announce = new Announce();
+		Object.assign(announce, { data, });
+
+		const newAnnounce = await this.prisma.announce.create({ data, });
+
+		return plainToInstance(Announce, newAnnounce);
 	}
 
 	async findAll(): Promise<Announce[]> {
