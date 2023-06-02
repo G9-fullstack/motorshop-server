@@ -12,17 +12,17 @@ import {
 } from "class-validator";
 
 enum Brand {
-	chevrolet,
-	citroen,
-	fiat,
-	ford,
-	honda,
-	hyundai,
-	nissan,
-	peugeot,
-	renault,
-	toyota,
-	volkswagen
+	chevrolet = "chevrolet",
+	citroen = "citroen",
+	fiat = "fiat",
+	ford = "ford",
+	honda = "honda",
+	hyundai = "hyundai",
+	nissan = "nissan",
+	peugeot = "peugeot",
+	renault = "renault",
+	toyota = "toyota",
+	volkswagen = "volkswagen"
 }
 
 export class CreateAnnounceDto {
