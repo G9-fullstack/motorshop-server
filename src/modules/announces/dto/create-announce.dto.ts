@@ -41,7 +41,7 @@ export class CreateAnnounceDto {
 	@Length(4)
 		year: string;
 
-	@IsString()
+	@IsNumberString()
 	@IsNotEmpty()
 	@MaxLength(10)
 		mileage: string;
