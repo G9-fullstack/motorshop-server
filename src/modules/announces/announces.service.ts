@@ -1,26 +1,29 @@
 import { Injectable } from "@nestjs/common";
 import { CreateAnnounceDto } from "./dto/create-announce.dto";
 import { UpdateAnnounceDto } from "./dto/update-announce.dto";
+import { AnnounceRepository } from "./repositories/announce.repository";
 
 @Injectable()
 export class AnnouncesService {
-	create(createAnnounceDto: CreateAnnounceDto) {
-		return "This action adds a new announce";
+	constructor(private contactRepository: AnnounceRepository) {}
+
+	async create(createAnnounceDto: CreateAnnounceDto) {
+		return await this.contactRepository.create(createAnnounceDto);
 	}
 
-	findAll() {
+	async findAll() {
 		return "This action returns all announces";
 	}
 
-	findOne(id: number) {
+	async findOne(id: number) {
 		return `This action returns a #${id} announce`;
 	}
 
-	update(id: number, updateAnnounceDto: UpdateAnnounceDto) {
+	async update(id: number, updateAnnounceDto: UpdateAnnounceDto) {
 		return `This action updates a #${id} announce`;
 	}
 
-	remove(id: number) {
+	async remove(id: number) {
 		return `This action removes a #${id} announce`;
 	}
 }
