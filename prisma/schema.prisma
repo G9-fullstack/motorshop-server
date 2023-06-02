@@ -6,3 +6,34 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Brand {
+	chevrolet
+	citroen
+	fiat
+	ford
+	honda
+	hyundai
+	nissan
+	peugeot
+	renault
+	toyota
+	volkswagen
+}
+
+model Announce {
+	id Int @id @default(autoincrement())
+	brand Brand
+	model String @db.VarChar(127)
+	year String @db.VarChar(4)
+	mileage String @db.VarChar(10)
+	fuel Int
+	color String @db.VarChar(25)
+	price Decimal @db.Decimal(11, 2)
+	description String @db.Text
+	coverImage String @db.Text
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+	
+	@@map("announces")
+}
