@@ -12,11 +12,18 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 
 	async create(data: CreateAnnounceDto): Promise<Announce> {
 		const announce: Announce = new Announce();
-		Object.assign(announce, { data, });
+		Object.assign(announce, { ...data, });
 
-		const newAnnounce = await this.prisma.announce.create({ data, });
+		const newAnnounce = await this.prisma.announce.create({
+			data: {
+				...announce,
+			},
+		});
 
-		return plainToInstance(Announce, newAnnounce);
+		return plainToInstance(Announce, {
+			...newAnnounce,
+			price: +newAnnounce.price,
+		});
 	}
 
 	async findAll(): Promise<Announce[]> {
