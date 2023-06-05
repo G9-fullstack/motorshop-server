@@ -14,6 +14,7 @@ enum Brand {
 
 export class Announce {
 	id: number;
+	isActive: boolean;
 	brand: Brand;
 	model: string;
 	year: string;

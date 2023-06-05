@@ -8,7 +8,9 @@ import {
 	IsNumberString,
 	IsPositive,
 	IsNumber,
-	Min
+	Min,
+	IsBoolean,
+	IsOptional
 } from "class-validator";
 
 enum Brand {
@@ -26,6 +28,10 @@ enum Brand {
 }
 
 export class CreateAnnounceDto {
+	@IsBoolean()
+	@IsOptional()
+		isActive: boolean;
+
 	@IsString()
 	@IsNotEmpty()
 	@IsEnum(Brand)
