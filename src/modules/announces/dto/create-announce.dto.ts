@@ -63,6 +63,7 @@ export class CreateAnnounceDto {
 
 	@IsNumber()
 	@IsNotEmpty()
+	@IsPositive()
 	@Transform(({ value, }) => Number(parseFloat(value).toFixed(2)))
 		price: number;
 
