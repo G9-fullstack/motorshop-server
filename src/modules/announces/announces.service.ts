@@ -1,14 +1,14 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateAnnounceDto } from "./dto/create-announce.dto";
 import { UpdateAnnounceDto } from "./dto/update-announce.dto";
 import { AnnounceRepository } from "./repositories/announce.repository";
 
 @Injectable()
 export class AnnouncesService {
-	constructor(private contactRepository: AnnounceRepository) {}
+	constructor(private announceRepository: AnnounceRepository) {}
 
 	async create(createAnnounceDto: CreateAnnounceDto) {
-		return await this.contactRepository.create(createAnnounceDto);
+		return await this.announceRepository.create(createAnnounceDto);
 	}
 
 	async findAll() {
@@ -16,11 +16,20 @@ export class AnnouncesService {
 	}
 
 	async findOne(id: number) {
-		return `This action returns a #${id} announce`;
+		const announce = await this.announceRepository.findOne(id);
+		if (!announce){
+			throw new NotFoundException("Announce not found");
+		}
+		return announce;
 	}
 
 	async update(id: number, updateAnnounceDto: UpdateAnnounceDto) {
-		return `This action updates a #${id} announce`;
+		const findAnnounce = await this.announceRepository.findOne(id);
+		if (!findAnnounce){
+			throw new NotFoundException("Announce not found");
+		}
+		const announce = await this.announceRepository.update(id, updateAnnounceDto);
+		return announce;
 	}
 
 	async remove(id: number) {

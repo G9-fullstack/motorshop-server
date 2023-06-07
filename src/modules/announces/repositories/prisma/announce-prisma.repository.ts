@@ -4,7 +4,6 @@ import { CreateAnnounceDto } from "../../dto/create-announce.dto";
 import { UpdateAnnounceDto } from "../../dto/update-announce.dto";
 import { Announce } from "../../entities/announce.entity";
 import { PrismaService } from "src/server/prisma.service";
-import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class AnnouncePrismaRepository implements AnnounceRepository {
@@ -19,11 +18,7 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 				...announce,
 			},
 		});
-
-		return plainToInstance(Announce, {
-			...newAnnounce,
-			price: +newAnnounce.price,
-		});
+		return newAnnounce;
 	}
 
 	async findAll(): Promise<Announce[]> {
@@ -31,11 +26,18 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 	}
 
 	async findOne(id: number): Promise<Announce> {
-		throw new Error("Method not implemented.");
+		const announce = await this.prisma.announce.findUnique({
+			where: { id, },
+		});
+		return announce;
 	}
 
 	async update(id: number, data: UpdateAnnounceDto): Promise<Announce> {
-		throw new Error("Method not implemented.");
+		const announce = await this.prisma.announce.update({
+			where: {id,},
+			data,
+		});
+		return announce;
 	}
 
 	async remove(id: number): Promise<void> {

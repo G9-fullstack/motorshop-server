@@ -18,17 +18,17 @@ export class AnnouncesController {
 	}
 
 	@Get(":id")
-	findOne(@Param("id") id: string) {
-		return this.announcesService.findOne(+id);
+	findOne(@Param("id") id: number) {
+		return this.announcesService.findOne(id);
 	}
 
 	@Patch(":id")
-	update(@Param("id") id: string, @Body() updateAnnounceDto: UpdateAnnounceDto) {
-		return this.announcesService.update(+id, updateAnnounceDto);
+	update(@Param("id") id: number, @Body() updateAnnounceDto: UpdateAnnounceDto) {
+		return this.announcesService.update(id, updateAnnounceDto);
 	}
 
 	@Delete(":id")
-	remove(@Param("id") id: string) {
-		return this.announcesService.remove(+id);
+	remove(@Param("id") id: number) {
+		return this.announcesService.remove(id);
 	}
 }
