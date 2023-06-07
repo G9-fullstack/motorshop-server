@@ -1,3 +1,4 @@
+import { Transform } from "class-transformer";
 import {
 	IsString,
 	IsNotEmpty,
@@ -8,23 +9,22 @@ import {
 	IsNumberString,
 	IsPositive,
 	IsNumber,
-	Min,
 	IsBoolean,
 	IsOptional
 } from "class-validator";
 
 enum Brand {
-	chevrolet = "chevrolet",
-	citroen = "citroen",
-	fiat = "fiat",
-	ford = "ford",
-	honda = "honda",
-	hyundai = "hyundai",
-	nissan = "nissan",
-	peugeot = "peugeot",
-	renault = "renault",
-	toyota = "toyota",
-	volkswagen = "volkswagen"
+	CHEVROLET = "chevrolet",
+	CITROEN = "citroen",
+	FIAT = "fiat",
+	FORD = "ford",
+	HONDA = "honda",
+	HYUNDAI = "hyundai",
+	NISSAN = "nissan",
+	PEUGEOT = "peugeot",
+	RENAULT = "renault",
+	TOYOTA = "toyota",
+	VOLKSWAGEN = "volkswagen"
 }
 
 export class CreateAnnounceDto {
@@ -32,7 +32,6 @@ export class CreateAnnounceDto {
 	@IsOptional()
 		isActive: boolean;
 
-	@IsString()
 	@IsNotEmpty()
 	@IsEnum(Brand)
 		brand: Brand;
@@ -63,8 +62,9 @@ export class CreateAnnounceDto {
 		color: string;
 
 	@IsNumber()
+	@IsNotEmpty()
 	@IsPositive()
-	@Min(0)
+	@Transform(({ value, }) => Number(parseFloat(value).toFixed(2)))
 		price: number;
 
 	@IsString()
