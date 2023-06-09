@@ -12,7 +12,7 @@ export class AnnouncesService {
 	}
 
 	async findAll() {
-		return "This action returns all announces";
+		return this.announceRepository.findAll();
 	}
 
 	async findOne(id: number) {
