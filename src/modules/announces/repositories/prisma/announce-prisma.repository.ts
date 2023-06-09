@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common";
-import { AnnounceRepository } from "../announce.repository";
+import { PrismaService } from "src/server/prisma.service";
 import { CreateAnnounceDto } from "../../dto/create-announce.dto";
 import { UpdateAnnounceDto } from "../../dto/update-announce.dto";
 import { Announce } from "../../entities/announce.entity";
-import { PrismaService } from "src/server/prisma.service";
+import { AnnounceRepository } from "../announce.repository";
 
 @Injectable()
 export class AnnouncePrismaRepository implements AnnounceRepository {
-	constructor(private prisma: PrismaService) {}
+	constructor(private prisma: PrismaService) { }
 
 	async create(data: CreateAnnounceDto): Promise<Announce> {
 		const announce: Announce = new Announce();
@@ -34,13 +34,13 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 
 	async update(id: number, data: UpdateAnnounceDto): Promise<Announce> {
 		const announce = await this.prisma.announce.update({
-			where: {id,},
+			where: { id, },
 			data,
 		});
 		return announce;
 	}
 
 	async remove(id: number): Promise<void> {
-		throw new Error("Method not implemented.");
+		await this.prisma.announce.delete({ where: { id } });
 	}
 }

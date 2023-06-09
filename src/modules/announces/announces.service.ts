@@ -5,7 +5,7 @@ import { AnnounceRepository } from "./repositories/announce.repository";
 
 @Injectable()
 export class AnnouncesService {
-	constructor(private announceRepository: AnnounceRepository) {}
+	constructor(private announceRepository: AnnounceRepository) { }
 
 	async create(createAnnounceDto: CreateAnnounceDto) {
 		return await this.announceRepository.create(createAnnounceDto);
@@ -17,7 +17,7 @@ export class AnnouncesService {
 
 	async findOne(id: number) {
 		const announce = await this.announceRepository.findOne(id);
-		if (!announce){
+		if (!announce) {
 			throw new NotFoundException("Announce not found");
 		}
 		return announce;
@@ -25,7 +25,7 @@ export class AnnouncesService {
 
 	async update(id: number, updateAnnounceDto: UpdateAnnounceDto) {
 		const findAnnounce = await this.announceRepository.findOne(id);
-		if (!findAnnounce){
+		if (!findAnnounce) {
 			throw new NotFoundException("Announce not found");
 		}
 		const announce = await this.announceRepository.update(id, updateAnnounceDto);
@@ -33,6 +33,10 @@ export class AnnouncesService {
 	}
 
 	async remove(id: number) {
-		return `This action removes a #${id} announce`;
+		const announce = await this.announceRepository.findOne(id);
+		if (!announce) {
+			throw new NotFoundException(`Announce with ID "${id}" not found`);
+		}
+		await this.announceRepository.remove(id);
 	}
 }
