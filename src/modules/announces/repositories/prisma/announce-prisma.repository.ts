@@ -22,7 +22,8 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 	}
 
 	async findAll(): Promise<Announce[]> {
-		throw new Error("Method not implemented.");
+		const contacts = await this.prisma.announce.findMany();
+		return contacts;
 	}
 
 	async findOne(id: number): Promise<Announce> {
@@ -41,6 +42,6 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 	}
 
 	async remove(id: number): Promise<void> {
-		await this.prisma.announce.delete({ where: { id } });
+		await this.prisma.announce.delete({ where: { id, }, });
 	}
 }
