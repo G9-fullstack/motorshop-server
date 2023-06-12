@@ -1,5 +1,5 @@
 export class Announce {
-	id: number;
+	readonly id: number;
 	isActive: boolean;
 	brand: string;
 	model: string;
@@ -10,6 +10,6 @@ export class Announce {
 	price: number;
 	description: string;
 	coverImage: string;
-	createdAt: Date;
-	updatedAt: Date;
+	readonly createdAt: Date;
+	readonly updatedAt: Date;
 }
