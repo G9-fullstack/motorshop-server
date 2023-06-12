@@ -36,5 +36,42 @@ model Announce {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
+    seller   User @relation(fields: [sellerId], references: [id])
+    sellerId Int
+
     @@map("announces")
+}
+
+model User {
+    id          Int      @id() @default(autoincrement())
+    name        String   @db.VarChar(127)
+    email       String   @unique @db.VarChar(127)
+    password    String
+    cpf         String   @unique @db.VarChar(11)
+    phoneNumber String   @unique @db.VarChar(11)
+    birthdate   DateTime
+    description String   @db.Text
+    isSeller    Boolean  @default(false)
+    createdAt   DateTime @default(now())
+
+    address   Address    @relation(fields: [addressId], references: [id])
+    addressId Int        @unique
+
+    announces  Announce[]
+
+    @@map("users")
+}
+
+model Address {
+    id         Int    @id() @default(autoincrement())
+    zipCode    String @db.VarChar(8)
+    state      String @db.VarChar(2)
+    city       String @db.VarChar(127)
+    street     String @db.VarChar(127)
+    number     String @db.VarChar(10)
+    complement String @db.VarChar(127)
+
+    user User?
+
+    @@map("addresses")
 }
