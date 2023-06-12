@@ -38,3 +38,18 @@ model Announce {
 
     @@map("announces")
 }
+
+model User {
+    id          Int      @id() @default(autoincrement())
+    name        String   @db.VarChar(127)
+    email       String   @unique @db.VarChar(127)
+    password    String
+    cpf         String   @unique @db.VarChar(11)
+    phoneNumber String   @unique @db.VarChar(11)
+    birthdate   DateTime
+    description String   @db.Text
+    isSeller    Boolean  @default(false)
+    createdAt   DateTime @default(now())
+
+    @@map("users")
+}
