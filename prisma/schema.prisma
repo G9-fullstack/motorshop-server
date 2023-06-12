@@ -53,3 +53,15 @@ model User {
 
     @@map("users")
 }
+
+model Address {
+    id         Int    @id() @default(autoincrement())
+    zipCode    String @db.VarChar(8)
+    state      String @db.VarChar(2)
+    city       String @db.VarChar(127)
+    street     String @db.VarChar(127)
+    number     String @db.VarChar(10)
+    complement String @db.VarChar(127)
+
+    @@map("addresses")
+}
