@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Controller, Get, Post, Body, Patch, Param, Delete } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -9,6 +10,7 @@ export class UsersController {
 
 	@Post()
 	create(@Body() createUserDto: CreateUserDto) {
+		console.log(createUserDto);
 		return this.usersService.create(createUserDto);
 	}
 
