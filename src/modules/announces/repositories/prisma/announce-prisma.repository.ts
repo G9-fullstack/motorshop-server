@@ -16,6 +16,7 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 		const newAnnounce = await this.prisma.announce.create({
 			data: {
 				...announce,
+				sellerId: 3,
 			},
 		});
 		return newAnnounce;

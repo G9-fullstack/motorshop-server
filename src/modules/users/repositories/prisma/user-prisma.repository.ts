@@ -8,15 +8,37 @@ import { PrismaService } from "src/server/prisma.service";
 @Injectable()
 export class UserPrismaRepository implements UserRepository {
 	constructor(private prisma: PrismaService) {}
+
 	async create(data: CreateUserDto): Promise<User> {
-		throw new Error("Method not implemented.");
+		const {address, ...user} = data;
+		const userCreated = await this.prisma.user.create({
+			data: {
+				address: {
+					create: {
+						...address,
+					},
+				},
+				...user,
+				birthdate: new Date(user.birthdate),
+			},
+			include: {address: true,},
+		});
+
+		return userCreated;
 	}
+
 	async findAll(): Promise<User[]> {
 		throw new Error("Method not implemented.");
 	}
+
 	async findOne(id: number): Promise<User> {
 		throw new Error("Method not implemented.");
 	}
+
+	async update(id: number, data: Partial<UpdateUserDto>): Promise<User> {
+		throw new Error("Method not implemented.");
+	}
+
 	async findByEmail(email: string): Promise<User> {
 		const user = await this.prisma.user.findUnique({
 			where: { email, },
@@ -24,9 +46,7 @@ export class UserPrismaRepository implements UserRepository {
 
 		return user;
 	}
-	async update(id: number, data: UpdateUserDto): Promise<User> {
-		throw new Error("Method not implemented.");
-	}
+
 	async delete(id: number): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
