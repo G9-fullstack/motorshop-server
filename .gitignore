@@ -37,4 +37,6 @@ lerna-debug.log*
 yarn.lock
 .env
 
+*lock*
+
 api.http
