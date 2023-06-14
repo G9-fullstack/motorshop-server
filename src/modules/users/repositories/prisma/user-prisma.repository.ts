@@ -10,7 +10,7 @@ export class UserPrismaRepository implements UserRepository {
 	constructor(private prisma: PrismaService) {}
 
 	async create(data: CreateUserDto): Promise<User> {
-		const {address, ...user} = data;
+		const { address, ...user } = data;
 		const userCreated = await this.prisma.user.create({
 			data: {
 				address: {
@@ -19,9 +19,8 @@ export class UserPrismaRepository implements UserRepository {
 					},
 				},
 				...user,
-				birthdate: new Date(user.birthdate),
 			},
-			include: {address: true,},
+			include: { address: true, },
 		});
 
 		return userCreated;
