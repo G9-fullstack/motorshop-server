@@ -4,6 +4,7 @@ import { CreateUserDto } from "../../dto/create-user.dto";
 import { UpdateUserDto } from "../../dto/update-user.dto";
 import { User } from "../../entities/user.entity";
 import { PrismaService } from "src/server/prisma.service";
+import { plainToClass } from "class-transformer";
 
 @Injectable()
 export class UserPrismaRepository implements UserRepository {
@@ -20,10 +21,10 @@ export class UserPrismaRepository implements UserRepository {
 				},
 				...user,
 			},
-			include: { address: true, },
 		});
 
-		return userCreated;
+		return plainToClass(User, userCreated);
+
 	}
 
 	async findAll(): Promise<User[]> {
@@ -46,7 +47,26 @@ export class UserPrismaRepository implements UserRepository {
 		return user;
 	}
 
+	async findByCpf(cpf: string): Promise<User> {
+		const user = await this.prisma.user.findUnique({
+			where: { cpf, },
+		});
+
+		return user;
+	}
+	async findByPhoneNumber(phoneNumber: string): Promise<User> {
+		const user = await this.prisma.user.findUnique({
+			where: { phoneNumber, },
+		});
+
+		return user;
+	}
+
 	async delete(id: number): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 }
+function plainToIstance(user: { name: string; email: string; password: string; cpf: string; phoneNumber: string; birthdate: string; description: string; isSeller: boolean; }, userCreated: User): User | PromiseLike<User> {
+	throw new Error("Function not implemented.");
+}
+
