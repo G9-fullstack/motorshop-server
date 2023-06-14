@@ -26,12 +26,12 @@ export class AnnouncesController {
 	}
 
 	@Patch(":id")
-	update(@Param("id") id: string, @Body() updateAnnounceDto: UpdateAnnounceDto) {
-		return this.announcesService.update(+id, updateAnnounceDto);
+	update(@Param("id") id: string, @Body() updateAnnounceDto: UpdateAnnounceDto, @Request() req: ExpressRequest) {
+		return this.announcesService.update(+id, updateAnnounceDto, req.user);
 	}
 
 	@Delete(":id")
-	remove(@Param("id") id: string) {
-		return this.announcesService.remove(+id);
+	remove(@Param("id") id: string, @Request() req: ExpressRequest) {
+		return this.announcesService.remove(+id, req.user);
 	}
 }
