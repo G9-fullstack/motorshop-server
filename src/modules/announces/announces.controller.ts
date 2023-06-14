@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { AnnouncesService } from "./announces.service";
 import { CreateAnnounceDto } from "./dto/create-announce.dto";
 import { UpdateAnnounceDto } from "./dto/update-announce.dto";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
+@UseGuards(JwtAuthGuard)
 @Controller("announces")
 export class AnnouncesController {
 	constructor(private readonly announcesService: AnnouncesService) { }
