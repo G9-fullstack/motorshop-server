@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, ForbiddenException } from "@nestjs/common";
 import { CreateAnnounceDto } from "./dto/create-announce.dto";
 import { UpdateAnnounceDto } from "./dto/update-announce.dto";
 import { AnnounceRepository } from "./repositories/announce.repository";
@@ -7,8 +7,13 @@ import { AnnounceRepository } from "./repositories/announce.repository";
 export class AnnouncesService {
 	constructor(private announceRepository: AnnounceRepository) { }
 
-	async create(createAnnounceDto: CreateAnnounceDto, sellerId: number) {
-		return await this.announceRepository.create(createAnnounceDto, sellerId);
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	async create(createAnnounceDto: CreateAnnounceDto, userInfo: any) {
+		if (!userInfo.isSeller) {
+			throw new ForbiddenException();
+		}
+
+		return await this.announceRepository.create(createAnnounceDto, +userInfo.id);
 	}
 
 	async findAll() {
