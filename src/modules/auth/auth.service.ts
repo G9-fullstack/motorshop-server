@@ -33,8 +33,12 @@ export class AuthService {
 		const user = await this.usersService.findByEmail(email);
 
 		return {
-			token: this.jwtService.sign({
+			user: {
+				id: user.id,
 				name: user.name,
+				isSeller: user.isSeller,
+			},
+			token: this.jwtService.sign({
 				isSeller: user.isSeller,
 			}, {
 				subject: user.id.toString(),
