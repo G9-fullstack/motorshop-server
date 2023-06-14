@@ -7,8 +7,8 @@ import { AnnounceRepository } from "./repositories/announce.repository";
 export class AnnouncesService {
 	constructor(private announceRepository: AnnounceRepository) { }
 
-	async create(createAnnounceDto: CreateAnnounceDto) {
-		return await this.announceRepository.create(createAnnounceDto);
+	async create(createAnnounceDto: CreateAnnounceDto, sellerId: number) {
+		return await this.announceRepository.create(createAnnounceDto, sellerId);
 	}
 
 	async findAll() {

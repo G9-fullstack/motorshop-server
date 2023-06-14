@@ -9,14 +9,14 @@ import { AnnounceRepository } from "../announce.repository";
 export class AnnouncePrismaRepository implements AnnounceRepository {
 	constructor(private prisma: PrismaService) { }
 
-	async create(data: CreateAnnounceDto): Promise<Announce> {
+	async create(data: CreateAnnounceDto, sellerId: number): Promise<Announce> {
 		const announce: Announce = new Announce();
 		Object.assign(announce, { ...data, });
 
 		const newAnnounce = await this.prisma.announce.create({
 			data: {
 				...announce,
-				sellerId: 3,
+				sellerId,
 			},
 		});
 		return newAnnounce;
