@@ -9,14 +9,37 @@ import { AnnounceRepository } from "../announce.repository";
 export class AnnouncePrismaRepository implements AnnounceRepository {
 	constructor(private prisma: PrismaService) { }
 
-	async create(data: CreateAnnounceDto): Promise<Announce> {
-		const announce: Announce = new Announce();
-		Object.assign(announce, { ...data, });
+	async create(data: CreateAnnounceDto, sellerId: number): Promise<Announce> {
+		const { images, ...announce } = data;
+
+		const imagesList = images ? images.map((image) => {
+			return {
+				imageUrl: image,
+			};
+		}) : undefined;
+
+		const createDataOptions = {
+			...announce,
+			sellerId,
+			images: {
+				createMany: {
+					data: imagesList,
+				},
+			},
+		};
+
+		if (!imagesList || !imagesList[0]) {
+			delete createDataOptions.images;
+		}
 
 		const newAnnounce = await this.prisma.announce.create({
-			data: {
-				...announce,
-				sellerId: 3,
+			data: createDataOptions,
+			include: {
+				images: {
+					select: {
+						imageUrl: true,
+					},
+				},
 			},
 		});
 		return newAnnounce;
@@ -27,7 +50,7 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 		return contacts;
 	}
 
-	async findOne(id: number): Promise<Announce> {
+	async findOne(id: number): Promise<Announce & { sellerId: number }> {
 		const announce = await this.prisma.announce.findUnique({
 			where: { id, },
 		});
@@ -35,11 +58,40 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 	}
 
 	async update(id: number, data: UpdateAnnounceDto): Promise<Announce> {
-		const announce = await this.prisma.announce.update({
+		const { images, ...announce } = data;
+
+		const imagesList = images ? images.map((image) => {
+			return {
+				imageUrl: image,
+			};
+		}) : undefined;
+
+		const createDataOptions = {
+			...announce,
+			images: {
+				deleteMany: {},
+				createMany: {
+					data: imagesList,
+				},
+			},
+		};
+
+		if (!imagesList || !imagesList[0]) {
+			delete createDataOptions.images;
+		}
+
+		const updatedAnnounce = await this.prisma.announce.update({
 			where: { id, },
-			data,
+			data: createDataOptions,
+			include: {
+				images: {
+					select: {
+						imageUrl: true,
+					},
+				},
+			},
 		});
-		return announce;
+		return updatedAnnounce;
 	}
 
 	async remove(id: number): Promise<void> {

@@ -10,7 +10,8 @@ import {
 	IsPositive,
 	IsNumber,
 	IsBoolean,
-	IsOptional
+	IsOptional,
+	IsArray
 } from "class-validator";
 
 enum Brand {
@@ -74,4 +75,8 @@ export class CreateAnnounceDto {
 	@IsString()
 	@IsNotEmpty()
 		coverImage: string;
+
+	@IsOptional()
+	@IsArray()
+		images: string[];
 }

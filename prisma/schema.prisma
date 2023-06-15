@@ -22,7 +22,7 @@ enum Brand {
 }
 
 model Image {
-    id         Int      @id
+    id         Int      @id @default(autoincrement())
     imageUrl   String
     announce   Announce @relation(fields: [announceId], references: [id])
     announceId Int
