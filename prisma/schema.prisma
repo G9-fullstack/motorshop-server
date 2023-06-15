@@ -1,88 +1,88 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum Brand {
-    CHEVROLET
-    CITROEN
-    FIAT
-    FORD
-    HONDA
-    HYUNDAI
-    NISSAN
-    PEUGEOT
-    RENAULT
-    TOYOTA
-    VOLKSWAGEN
+  CHEVROLET
+  CITROEN
+  FIAT
+  FORD
+  HONDA
+  HYUNDAI
+  NISSAN
+  PEUGEOT
+  RENAULT
+  TOYOTA
+  VOLKSWAGEN
 }
 
 model Image {
-    id         Int      @id @default(autoincrement())
-    imageUrl   String
-    announce   Announce @relation(fields: [announceId], references: [id])
-    announceId Int
+  id         Int      @id @default(autoincrement())
+  imageUrl   String
+  announce   Announce @relation(fields: [announceId], references: [id])
+  announceId Int
 
-    @@map("images")
+  @@map("images")
 }
 
 model Announce {
-    id          Int      @id @default(autoincrement())
-    isActive    Boolean  @default(true)
-    brand       String
-    model       String   @db.VarChar(127)
-    year        String   @db.VarChar(4)
-    mileage     String   @db.VarChar(10)
-    fuel        Int
-    color       String   @db.VarChar(25)
-    price       Float
-    description String   @db.Text
-    coverImage  String   @db.Text
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  isActive    Boolean  @default(true)
+  brand       String
+  model       String   @db.VarChar(127)
+  year        String   @db.VarChar(4)
+  mileage     String   @db.VarChar(10)
+  fuel        Int
+  color       String   @db.VarChar(25)
+  price       Float
+  description String   @db.Text
+  coverImage  String   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-    seller   User @relation(fields: [sellerId], references: [id])
-    sellerId Int
+  seller   User @relation(fields: [sellerId], references: [id])
+  sellerId Int
 
-    images Image[]
+  images Image[]
 
-    @@map("announces")
+  @@map("announces")
 }
 
 model User {
-    id          Int      @id() @default(autoincrement())
-    name        String   @db.VarChar(127)
-    email       String   @unique @db.VarChar(127)
-    password    String
-    cpf         String   @unique @db.VarChar(11)
-    phoneNumber String   @unique @db.VarChar(11)
-    birthdate   DateTime
-    description String   @db.Text
-    isSeller    Boolean  @default(false)
-    createdAt   DateTime @default(now())
+  id          Int      @id() @default(autoincrement())
+  name        String   @db.VarChar(127)
+  email       String   @unique @db.VarChar(127)
+  password    String
+  cpf         String   @unique @db.VarChar(11)
+  phoneNumber String   @unique @db.VarChar(11)
+  birthdate   DateTime
+  description String   @db.Text
+  isSeller    Boolean  @default(false)
+  createdAt   DateTime @default(now())
 
-    address   Address @relation(fields: [addressId], references: [id])
-    addressId Int     @unique
+  address   Address @relation(fields: [addressId], references: [id])
+  addressId Int     @unique
 
-    announces Announce[]
+  announces Announce[]
 
-    @@map("users")
+  @@map("users")
 }
 
 model Address {
-    id         Int    @id() @default(autoincrement())
-    zipCode    String @db.VarChar(8)
-    state      String @db.VarChar(2)
-    city       String @db.VarChar(127)
-    street     String @db.VarChar(127)
-    number     String @db.VarChar(10)
-    complement String @db.VarChar(127)
+  id         Int     @id() @default(autoincrement())
+  zipCode    String  @db.VarChar(8)
+  state      String  @db.VarChar(2)
+  city       String  @db.VarChar(127)
+  street     String  @db.VarChar(127)
+  number     String  @db.VarChar(10)
+  complement String? @db.VarChar(127)
 
-    user User?
+  user User?
 
-    @@map("addresses")
+  @@map("addresses")
 }
