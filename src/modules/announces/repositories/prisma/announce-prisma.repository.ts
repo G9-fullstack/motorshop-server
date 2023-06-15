@@ -35,7 +35,11 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 		const newAnnounce = await this.prisma.announce.create({
 			data: createDataOptions,
 			include: {
-				images: true,
+				images: {
+					select: {
+						imageUrl: true,
+					},
+				},
 			},
 		});
 		return newAnnounce;
