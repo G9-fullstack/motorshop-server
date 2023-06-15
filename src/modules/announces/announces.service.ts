@@ -3,6 +3,7 @@ import { Injectable, NotFoundException, ForbiddenException } from "@nestjs/commo
 import { CreateAnnounceDto } from "./dto/create-announce.dto";
 import { UpdateAnnounceDto } from "./dto/update-announce.dto";
 import { AnnounceRepository } from "./repositories/announce.repository";
+import "dotenv/config";
 
 @Injectable()
 export class AnnouncesService {
@@ -16,8 +17,31 @@ export class AnnouncesService {
 		return await this.announceRepository.create(createAnnounceDto, userInfo.id);
 	}
 
-	async findAll() {
-		return this.announceRepository.findAll();
+	async findAll(baseUrl: string, page: number) {
+		if (page <= 0 || !Number.isInteger(page)) {
+			page = 1;
+		}
+
+		const perPage = 12;
+
+		const announces = await this.announceRepository.findAll(page);
+
+		const count = await this.announceRepository.count();
+		const maxPage = Math.ceil(count/perPage);
+
+		//Remover essas duas linhas debaixo após o projeto subir para produção.
+		const PORT = process.env.APP_PORT || 3001;
+		baseUrl = baseUrl.concat(`:${PORT}`);
+
+		const prevPage = page === 1 || page > maxPage + 1 ? null : `${baseUrl}/users?page=${page - 1}&perPage=${perPage}`;
+		const nextPage = page >= maxPage ? null : `${baseUrl}/users?page=${page + 1}&perPage=${perPage}`;
+
+		return {
+			prevPage,
+			nextPage,
+			count,
+			data: announces,
+		};
 	}
 
 	async findOne(id: number) {
