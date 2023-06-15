@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty } from "class-validator";
+import { IsString, IsNotEmpty, IsOptional } from "class-validator";
 
 export class CreateAddressDto {
 	@IsString()
@@ -21,7 +21,7 @@ export class CreateAddressDto {
 	@IsNotEmpty()
 		number: string;
 
+	@IsOptional()
 	@IsString()
-	@IsNotEmpty()
-		complement: string;
+		complement?: string;
 }
