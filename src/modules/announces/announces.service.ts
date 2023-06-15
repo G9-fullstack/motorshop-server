@@ -13,7 +13,7 @@ export class AnnouncesService {
 			throw new ForbiddenException();
 		}
 
-		return await this.announceRepository.create(createAnnounceDto, +userInfo.id);
+		return await this.announceRepository.create(createAnnounceDto, userInfo.id);
 	}
 
 	async findAll() {
