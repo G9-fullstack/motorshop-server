@@ -45,8 +45,14 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 		return newAnnounce;
 	}
 
-	async findAll(): Promise<Announce[]> {
-		const contacts = await this.prisma.announce.findMany();
+	async findAll(page: number): Promise<Announce[]> {
+		const contacts = await this.prisma.announce.findMany({
+			take: 12,
+			skip: 12 * (page - 1),
+			orderBy: {
+				id: "asc",
+			},
+		});
 		return contacts;
 	}
 
@@ -55,6 +61,10 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 			where: { id, },
 		});
 		return announce;
+	}
+
+	async count(): Promise<number> {
+		return await this.prisma.announce.count();
 	}
 
 	async update(id: number, data: UpdateAnnounceDto): Promise<Announce> {

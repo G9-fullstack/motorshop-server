@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, Request } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, Request, Query } from "@nestjs/common";
 import { Request as ExpressRequest } from "express";
 import { AnnouncesService } from "./announces.service";
 import { CreateAnnounceDto } from "./dto/create-announce.dto";
@@ -16,8 +16,12 @@ export class AnnouncesController {
 	}
 
 	@Get()
-	findAll() {
-		return this.announcesService.findAll();
+	findAll( @Request() req: ExpressRequest, @Query() paginationParams: { page: string }) {
+		const baseUrl = req.protocol.concat("://").concat(req.hostname);
+
+		const page = Number(paginationParams.page) || 1;
+
+		return this.announcesService.findAll(baseUrl, page);
 	}
 
 	@Get(":id")
