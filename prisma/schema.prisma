@@ -60,7 +60,7 @@ model User {
   password    String
   cpf         String   @unique @db.VarChar(11)
   phoneNumber String   @unique @db.VarChar(11)
-  birthdate   DateTime
+  birthdate   String   @db.VarChar(10)
   description String   @db.Text
   isSeller    Boolean  @default(false)
   createdAt   DateTime @default(now())

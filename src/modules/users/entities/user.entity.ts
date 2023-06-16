@@ -10,7 +10,7 @@ export class User {
 
 	cpf: string;
 	phoneNumber: string;
-	birthdate: Date;
+	birthdate: string;
 	description: string;
 	isSeller: boolean;
 	readonly createdAt: Date;
