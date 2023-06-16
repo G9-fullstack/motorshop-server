@@ -1,5 +1,5 @@
 import { Transform, Type } from "class-transformer";
-import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength, ValidateNested } from "class-validator";
+import { IsBoolean, IsDateString, IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength, ValidateNested } from "class-validator";
 import { hashSync } from "bcryptjs";
 import { CreateAddressDto } from "./create-address.dto";
 
@@ -32,6 +32,8 @@ export class CreateUserDto {
 		phoneNumber: string;
 
 	@IsString()
+	@IsNotEmpty()
+	@MaxLength(10)
 		birthdate: string;
 
 	@IsString()
