@@ -1,14 +1,14 @@
 import { Injectable } from "@nestjs/common";
-import { UserRepository } from "../user.repository";
+import { plainToClass } from "class-transformer";
+import { PrismaService } from "src/server/prisma.service";
 import { CreateUserDto } from "../../dto/create-user.dto";
 import { UpdateUserDto } from "../../dto/update-user.dto";
 import { User } from "../../entities/user.entity";
-import { PrismaService } from "src/server/prisma.service";
-import { plainToClass } from "class-transformer";
+import { UserRepository } from "../user.repository";
 
 @Injectable()
 export class UserPrismaRepository implements UserRepository {
-	constructor(private prisma: PrismaService) {}
+	constructor(private prisma: PrismaService) { }
 
 	async create(data: CreateUserDto): Promise<User> {
 		const { address, ...user } = data;
@@ -24,7 +24,6 @@ export class UserPrismaRepository implements UserRepository {
 		});
 
 		return plainToClass(User, userCreated);
-
 	}
 
 	async findAll(): Promise<User[]> {
@@ -32,7 +31,7 @@ export class UserPrismaRepository implements UserRepository {
 	}
 
 	async findOne(id: number): Promise<User> {
-		throw new Error("Method not implemented.");
+		return await this.prisma.user.findFirst({ where: { id, }, include: { address: true, }, });
 	}
 
 	async update(id: number, data: Partial<UpdateUserDto>): Promise<User> {

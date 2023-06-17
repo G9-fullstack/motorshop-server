@@ -30,7 +30,7 @@ export class UsersService {
 	}
 
 	async findOne(id: number) {
-		return `This action returns a #${id} user`;
+		return await this.userRepository.findOne(id);
 	}
 
 	async findByEmail(email: string) {
