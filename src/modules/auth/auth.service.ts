@@ -1,14 +1,14 @@
 import { Injectable } from "@nestjs/common";
-import { UsersService } from "../users/users.service";
-import { compare } from "bcryptjs";
 import { JwtService } from "@nestjs/jwt";
+import { compare } from "bcryptjs";
+import { UsersService } from "../users/users.service";
 
 @Injectable()
 export class AuthService {
 	constructor(
 		private usersService: UsersService,
 		private jwtService: JwtService
-	) {}
+	) { }
 
 	async validateUser(userEmail: string, userPassword: string) {
 		const user = await this.usersService.findByEmail(userEmail);
@@ -33,16 +33,22 @@ export class AuthService {
 		const user = await this.usersService.findByEmail(email);
 
 		return {
-			user: {
-				id: user.id,
-				name: user.name,
-				isSeller: user.isSeller,
-			},
+
 			token: this.jwtService.sign({
 				isSeller: user.isSeller,
 			}, {
 				subject: user.id.toString(),
 			}),
+		};
+	}
+
+	async validateToken(user: any) {
+		const userFound = await this.usersService.findOne(user.id);
+		return {
+			id: userFound.id,
+			name: userFound.name,
+			description: userFound.description,
+			isSeller: userFound.isSeller,
 		};
 	}
 }
