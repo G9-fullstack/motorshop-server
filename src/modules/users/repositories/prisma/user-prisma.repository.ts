@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { Announce } from "@prisma/client";
 import { plainToClass } from "class-transformer";
 import { PrismaService } from "src/server/prisma.service";
 import { CreateUserDto } from "../../dto/create-user.dto";
@@ -30,6 +31,48 @@ export class UserPrismaRepository implements UserRepository {
 		throw new Error("Method not implemented.");
 	}
 
+	async findAnnounces(id: number, skip: number, take: number): Promise<{ data: Announce[], totalCount: number }> {
+		const [results, totalCount] = await Promise.all([
+			this.prisma.announce.findMany({
+				where: {
+					sellerId: id,
+				},
+				include: {
+					images: {
+						select: {
+							imageUrl: true,
+						},
+					},
+				},
+				skip,
+				take,
+			}),
+			this.prisma.announce.count({
+				where: {
+					sellerId: id,
+				},
+			})
+		]);
+
+		return {
+			data: results,
+			totalCount,
+		};
+	}
+
+	async getInfo(id: number) {
+		const user = await this.prisma.user.findFirst({
+			where: { id, },
+			select: {
+				id: true,
+				name: true,
+				description: true,
+			},
+		});
+
+		return user;
+	}
+
 	async findOne(id: number): Promise<User> {
 		return await this.prisma.user.findFirst({ where: { id, }, include: { address: true, }, });
 	}
@@ -53,6 +96,7 @@ export class UserPrismaRepository implements UserRepository {
 
 		return user;
 	}
+
 	async findByPhoneNumber(phoneNumber: string): Promise<User> {
 		const user = await this.prisma.user.findUnique({
 			where: { phoneNumber, },
@@ -65,6 +109,7 @@ export class UserPrismaRepository implements UserRepository {
 		throw new Error("Method not implemented.");
 	}
 }
+
 function plainToIstance(user: { name: string; email: string; password: string; cpf: string; phoneNumber: string; birthdate: string; description: string; isSeller: boolean; }, userCreated: User): User | PromiseLike<User> {
 	throw new Error("Function not implemented.");
 }

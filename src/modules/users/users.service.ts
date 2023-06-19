@@ -5,20 +5,20 @@ import { UserRepository } from "./repositories/user.repository";
 
 @Injectable()
 export class UsersService {
-	constructor(private userRepository: UserRepository) {}
+	constructor(private userRepository: UserRepository) { }
 
 	async create(createUserDto: CreateUserDto) {
 		const emailExists = await this.userRepository.findByEmail(createUserDto.email);
 		const cpfExists = await this.userRepository.findByCpf(createUserDto.cpf);
 		const phoneNumberExists = await this.userRepository.findByPhoneNumber(createUserDto.phoneNumber);
 
-		if(emailExists){
+		if (emailExists) {
 			throw new ConflictException("Email already exists");
 		}
-		if(cpfExists){
+		if (cpfExists) {
 			throw new ConflictException("CPF number already exists");
 		}
-		if(phoneNumberExists){
+		if (phoneNumberExists) {
 			throw new ConflictException("Phone number already  exists");
 		}
 
@@ -27,6 +27,25 @@ export class UsersService {
 
 	async findAll() {
 		return "This action returns all users";
+	}
+
+	async findAnnounces(id: number, page = 1, limit = 12) {
+		const skip = (page - 1) * limit;
+		const { data, totalCount, } = await this.userRepository.findAnnounces(id, skip, limit);
+
+		const totalPages = Math.ceil(totalCount / limit);
+		const baseUrl = `http://localhost:${process.env.APP_PORT || 3001}/users/${id}/announces`;
+		const prevPage = page === 1 || page > totalPages + 1 ? null : `${baseUrl}?page=${page - 1}&perPage=${limit}`;
+		const nextPage = page >= totalPages ? null : `${baseUrl}?page=${page + 1}&perPage=${limit}`;
+		const currentPage = page;
+
+		return {
+			prevPage,
+			nextPage,
+			currentPage,
+			totalCount,
+			data,
+		};
 	}
 
 	async findOne(id: number) {
@@ -39,6 +58,9 @@ export class UsersService {
 		return user;
 	}
 
+	async getInfo(id: number) {
+		return await this.userRepository.getInfo(id);
+	}
 
 	async update(id: number, updateUserDto: UpdateUserDto) {
 		return `This action updates a #${id} user`;

@@ -1,12 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from "@nestjs/common";
-import { UsersService } from "./users.service";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { UsersService } from "./users.service";
 
 @Controller("users")
 export class UsersController {
-	constructor(private readonly usersService: UsersService) {}
+	constructor(private readonly usersService: UsersService) { }
 
 	@Post()
 	create(@Body() createUserDto: CreateUserDto) {
@@ -23,6 +23,20 @@ export class UsersController {
 	@Get(":id")
 	findOne(@Param("id") id: string) {
 		return this.usersService.findOne(+id);
+	}
+
+	@Get(":id/announces")
+	async findAnnounces(
+		@Param("id") id: string,
+		@Query("page") page = 1,
+		@Query("perPage") limit = 12
+	) {
+		return await this.usersService.findAnnounces(+id, Number(page), Number(limit));
+	}
+
+	@Get(":id/infos")
+	async getInfo(@Param("id") id: string) {
+		return await this.usersService.getInfo(+id);
 	}
 
 	@UseGuards(JwtAuthGuard)
