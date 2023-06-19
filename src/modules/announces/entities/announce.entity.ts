@@ -5,7 +5,7 @@ export class Announce {
 	model: string;
 	year: string;
 	mileage: string;
-	fuel: number;
+	fuel: string;
 	color: string;
 	price: number;
 	description: string;

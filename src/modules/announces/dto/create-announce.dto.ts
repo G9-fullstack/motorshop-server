@@ -5,7 +5,6 @@ import {
 	IsEnum,
 	MaxLength,
 	Length,
-	IsInt,
 	IsNumberString,
 	IsPositive,
 	IsNumber,
@@ -13,6 +12,12 @@ import {
 	IsOptional,
 	IsArray
 } from "class-validator";
+
+enum Fuel {
+	FLEX = "Flex",
+	HIBRIDO = "Híbrido",
+	ELETRICO = "Elétrico"
+}
 
 enum Brand {
 	CHEVROLET = "chevrolet",
@@ -52,10 +57,9 @@ export class CreateAnnounceDto {
 	@MaxLength(10)
 		mileage: string;
 
-	@IsInt()
-	@IsPositive()
 	@IsNotEmpty()
-		fuel: number;
+	@IsEnum(Fuel)
+		fuel: Fuel;
 
 	@IsString()
 	@IsNotEmpty()

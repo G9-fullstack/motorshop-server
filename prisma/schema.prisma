@@ -7,20 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Brand {
-  CHEVROLET
-  CITROEN
-  FIAT
-  FORD
-  HONDA
-  HYUNDAI
-  NISSAN
-  PEUGEOT
-  RENAULT
-  TOYOTA
-  VOLKSWAGEN
-}
-
 model Image {
   id         Int      @id @default(autoincrement())
   imageUrl   String
@@ -37,7 +23,7 @@ model Announce {
   model       String   @db.VarChar(127)
   year        String   @db.VarChar(4)
   mileage     String   @db.VarChar(10)
-  fuel        Int
+  fuel        String
   color       String   @db.VarChar(25)
   price       Float
   description String   @db.Text
