@@ -59,7 +59,9 @@ export class UsersService {
 	}
 
 	async getInfo(id: number) {
-		return await this.userRepository.getInfo(id);
+		const user = await this.userRepository.getInfo(id);
+		if (!user) return { message: "User not found", };
+		return user;
 	}
 
 	async update(id: number, updateUserDto: UpdateUserDto) {

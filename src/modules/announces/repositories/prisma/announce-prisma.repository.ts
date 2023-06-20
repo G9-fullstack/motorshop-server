@@ -45,15 +45,39 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 		return newAnnounce;
 	}
 
-	async findAll(page: number): Promise<Announce[]> {
-		const contacts = await this.prisma.announce.findMany({
-			take: 12,
-			skip: 12 * (page - 1),
-			orderBy: {
-				id: "asc",
-			},
-		});
-		return contacts;
+	// async findAll(page: number): Promise<Announce[]> {
+	// 	const contacts = await this.prisma.announce.findMany({
+	// 		take: 12,
+	// 		skip: 12 * (page - 1),
+	// 		orderBy: {
+	// 			id: "asc",
+	// 		},
+	// 	});
+	// 	return contacts;
+	// }
+	async findAll(skip: number, take: number): Promise<{ data: Announce[], totalCount: number }> {
+		const [results, totalCount] = await Promise.all([
+			this.prisma.announce.findMany({
+				include: {
+					images: {
+						select: {
+							imageUrl: true,
+						},
+					},
+				},
+				skip,
+				take,
+				where: {
+					isActive: true,
+				},
+			}),
+			this.prisma.announce.count()
+		]);
+
+		return {
+			data: results,
+			totalCount,
+		};
 	}
 
 	async findOne(id: number): Promise<Announce & { sellerId: number }> {

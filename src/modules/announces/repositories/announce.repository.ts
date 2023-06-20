@@ -4,7 +4,7 @@ import { Announce } from "../entities/announce.entity";
 
 export abstract class AnnounceRepository {
 	abstract create(data: CreateAnnounceDto, sellerId: number): Promise<Announce>;
-	abstract findAll(page: number): Promise<Announce[] | object>;
+	abstract findAll(page: number, limit: number): Promise<{ data: Announce[], totalCount: number }>
 	abstract findOne(id: number): Promise<Announce & { sellerId: number } | undefined>;
 	abstract count(): Promise<number>
 	abstract update(id: number, data: UpdateAnnounceDto): Promise<Announce> | Announce;
