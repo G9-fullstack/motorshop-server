@@ -35,7 +35,12 @@ export class UserPrismaRepository implements UserRepository {
 	}
 
 	async update(id: number, data: Partial<UpdateUserDto>): Promise<User> {
-		throw new Error("Method not implemented.");
+		const updatedUser = await this.prisma.user.update({
+			where: {id,},
+			data,
+		});
+
+		return updatedUser;
 	}
 
 	async findByEmail(email: string): Promise<User> {
