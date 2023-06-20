@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from "@nestjs/common";
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserRepository } from "./repositories/user.repository";
@@ -40,11 +40,44 @@ export class UsersService {
 	}
 
 
-	async update(id: number, updateUserDto: UpdateUserDto) {
-		return `This action updates a #${id} user`;
+	async update(id: number, updateUserDto: UpdateUserDto, userInfo: any) {
+		if (id !== userInfo.id) {
+			throw new ForbiddenException();
+		}
+
+		const userFound = await this.userRepository.findOne(id);
+		if (!userFound) {
+			throw new NotFoundException("User not found");
+		}
+
+		const emailExists = await this.userRepository.findByEmail(updateUserDto.email);
+		const cpfExists = await this.userRepository.findByCpf(updateUserDto.cpf);
+		const phoneNumberExists = await this.userRepository.findByPhoneNumber(updateUserDto.phoneNumber);
+		if(emailExists){
+			throw new ConflictException("Email already exists");
+		}
+		if(cpfExists){
+			throw new ConflictException("CPF number already exists");
+		}
+		if(phoneNumberExists){
+			throw new ConflictException("Phone number already  exists");
+		}
+
+		delete updateUserDto.isSeller;
+
+		return await this.userRepository.update(id, updateUserDto);
 	}
 
-	async remove(id: number) {
-		return `This action removes a #${id} user`;
+	async remove(id: number, userInfo: any) {
+		if (id !== userInfo.id) {
+			throw new ForbiddenException();
+		}
+
+		const userFound = await this.userRepository.findOne(id);
+		if (!userFound) {
+			throw new NotFoundException("User not found");
+		}
+
+		await this.userRepository.delete(id);
 	}
 }
