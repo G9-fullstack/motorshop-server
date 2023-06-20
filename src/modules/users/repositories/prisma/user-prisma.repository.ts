@@ -62,7 +62,7 @@ export class UserPrismaRepository implements UserRepository {
 	}
 
 	async delete(id: number): Promise<void> {
-		throw new Error("Method not implemented.");
+		await this.prisma.user.delete({where: { id, }, });
 	}
 }
 function plainToIstance(user: { name: string; email: string; password: string; cpf: string; phoneNumber: string; birthdate: string; description: string; isSeller: boolean; }, userCreated: User): User | PromiseLike<User> {

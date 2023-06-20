@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from "@nestjs/common";
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserRepository } from "./repositories/user.repository";
@@ -45,6 +45,15 @@ export class UsersService {
 	}
 
 	async remove(id: number, userInfo: any) {
-		return `This action removes a #${id} user`;
+		if (id !== userInfo.id) {
+			throw new ForbiddenException();
+		}
+
+		const userFound = await this.userRepository.findOne(id);
+		if (!userFound) {
+			throw new NotFoundException("User not found");
+		}
+
+		await this.userRepository.delete(id);
 	}
 }
