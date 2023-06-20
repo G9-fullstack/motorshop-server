@@ -15,7 +15,6 @@ export class AuthService {
 
 		if (user) {
 			const isValidPassword: boolean = await compare(userPassword, user.password);
-
 			if (isValidPassword) {
 				return {
 					id: user.id,
@@ -25,15 +24,12 @@ export class AuthService {
 				};
 			}
 		}
-
 		return null;
 	}
 
 	async login(email: string) {
 		const user = await this.usersService.findByEmail(email);
-
 		return {
-
 			token: this.jwtService.sign({
 				isSeller: user.isSeller,
 			}, {

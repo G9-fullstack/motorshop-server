@@ -31,7 +31,6 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 		if (!imagesList || !imagesList[0]) {
 			delete createDataOptions.images;
 		}
-
 		const newAnnounce = await this.prisma.announce.create({
 			data: createDataOptions,
 			include: {
@@ -45,16 +44,6 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 		return newAnnounce;
 	}
 
-	// async findAll(page: number): Promise<Announce[]> {
-	// 	const contacts = await this.prisma.announce.findMany({
-	// 		take: 12,
-	// 		skip: 12 * (page - 1),
-	// 		orderBy: {
-	// 			id: "asc",
-	// 		},
-	// 	});
-	// 	return contacts;
-	// }
 	async findAll(skip: number, take: number): Promise<{ data: Announce[], totalCount: number }> {
 		const [results, totalCount] = await Promise.all([
 			this.prisma.announce.findMany({

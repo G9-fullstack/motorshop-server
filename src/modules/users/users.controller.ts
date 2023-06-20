@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Request, UseGuards } from "@nestjs/common";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -27,6 +27,7 @@ export class UsersController {
 
 	@Get(":id/announces")
 	async findAnnounces(
+		@Request() req: Express.Request,
 		@Param("id") id: string,
 		@Query("page") page = 1,
 		@Query("perPage") limit = 12

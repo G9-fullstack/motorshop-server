@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from "@nestjs/common";
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserRepository } from "./repositories/user.repository";
@@ -30,6 +30,9 @@ export class UsersService {
 	}
 
 	async findAnnounces(id: number, page = 1, limit = 12) {
+		const user = await this.userRepository.findOne(id);
+		if (!user.isSeller) throw new UnauthorizedException("User is not a seller");
+
 		const skip = (page - 1) * limit;
 		const { data, totalCount, } = await this.userRepository.findAnnounces(id, skip, limit);
 
@@ -60,7 +63,7 @@ export class UsersService {
 
 	async getInfo(id: number) {
 		const user = await this.userRepository.getInfo(id);
-		if (!user) return { message: "User not found", };
+		if (!user) throw new NotFoundException("User not found");
 		return user;
 	}
 
