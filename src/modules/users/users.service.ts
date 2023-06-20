@@ -40,11 +40,11 @@ export class UsersService {
 	}
 
 
-	async update(id: number, updateUserDto: UpdateUserDto) {
+	async update(id: number, updateUserDto: UpdateUserDto, userInfo: any) {
 		return `This action updates a #${id} user`;
 	}
 
-	async remove(id: number) {
+	async remove(id: number, userInfo: any) {
 		return `This action removes a #${id} user`;
 	}
 }
