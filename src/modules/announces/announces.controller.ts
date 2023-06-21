@@ -5,11 +5,11 @@ import { UpdateAnnounceDto } from "./dto/update-announce.dto";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import * as Express from "express";
 
-@UseGuards(JwtAuthGuard)
 @Controller("announces")
 export class AnnouncesController {
 	constructor(private readonly announcesService: AnnouncesService) { }
 
+	@UseGuards(JwtAuthGuard)
 	@Post()
 	create(@Body() createAnnounceDto: CreateAnnounceDto, @Request() req: Express.Request) {
 		return this.announcesService.create(createAnnounceDto, req.user);
@@ -25,16 +25,19 @@ export class AnnouncesController {
 		return await this.announcesService.findAll(baseUrl, Number(page), Number(limit));
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Get(":id")
 	findOne(@Param("id") id: string) {
 		return this.announcesService.findOne(+id);
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Patch(":id")
 	update(@Param("id") id: string, @Body() updateAnnounceDto: UpdateAnnounceDto, @Request() req: Express.Request) {
 		return this.announcesService.update(+id, updateAnnounceDto, req.user);
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Delete(":id")
 	remove(@Param("id") id: string, @Request() req: Express.Request) {
 		return this.announcesService.remove(+id, req.user);
