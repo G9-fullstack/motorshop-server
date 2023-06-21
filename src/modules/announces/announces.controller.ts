@@ -25,7 +25,6 @@ export class AnnouncesController {
 		return await this.announcesService.findAll(baseUrl, Number(page), Number(limit));
 	}
 
-	@UseGuards(JwtAuthGuard)
 	@Get(":id")
 	findOne(@Param("id") id: string) {
 		return this.announcesService.findOne(+id);

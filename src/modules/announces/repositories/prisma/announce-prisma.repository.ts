@@ -53,6 +53,7 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 						imageUrl: true,
 					},
 				},
+				seller: true,
 			},
 			skip,
 			take,
