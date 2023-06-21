@@ -34,6 +34,7 @@ export class UserPrismaRepository implements UserRepository {
 				id: true,
 				name: true,
 				description: true,
+				isSeller: true,
 			},
 		});
 		return user;
