@@ -1,13 +1,28 @@
-import { Injectable } from "@nestjs/common";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { UpdateAddressDto } from "./dto/update-address.dto";
+import { AddressRepository } from "./repositories/address.repository";
 
 @Injectable()
 export class AddressService {
-	findOne(id: number) {
-		return `This action returns a #${id} address`;
+	constructor(private addressRepository: AddressRepository) { }
+
+	async findOne(userInfo: any) {
+		const findAddress = await this.addressRepository.findOne(userInfo.id);
+		if (!findAddress) {
+			throw new NotFoundException("Address not found");
+		}
+		return findAddress;
 	}
 
-	update(id: number, updateAddressDto: UpdateAddressDto) {
-		return `This action updates a #${id} address`;
+	async update(updateAddressDto: UpdateAddressDto, userInfo: any) {
+
+		const findAddress = await this.addressRepository.findOne(userInfo.id);
+
+		if (!findAddress) {
+			throw new NotFoundException("Address not found");
+		}
+
+		return await this.addressRepository.update(userInfo.id, updateAddressDto);
 	}
 }

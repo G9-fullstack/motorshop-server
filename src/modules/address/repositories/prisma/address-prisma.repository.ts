@@ -9,7 +9,10 @@ export class AddressPrismaRepository implements AddressRepository {
 	constructor(private prisma: PrismaService) { }
 
 	async findOne(id: number): Promise<Address> {
-		throw new Error("Method not implemented.");
+		const address = await this.prisma.address.findUnique({
+			where: { id, },
+		});
+		return address;
 	}
 
 	async update(id: number, data: UpdateAddressDto): Promise<Address> {
