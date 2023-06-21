@@ -8,12 +8,16 @@ import { Address } from "../../entities/address.entity";
 export class AddressPrismaRepository implements AddressRepository {
 	constructor(private prisma: PrismaService) { }
 
-	findOne(id: number): Promise<Address> {
+	async findOne(id: number): Promise<Address> {
 		throw new Error("Method not implemented.");
 	}
 
-	update(id: number, data: UpdateAddressDto): Promise<Address> {
-		throw new Error("Method not implemented.");
-	}
+	async update(id: number, data: UpdateAddressDto): Promise<Address> {
+		const updatedAddress = await this.prisma.address.update({
+			where: { id, },
+			data,
+		});
 
+		return updatedAddress;
+	}
 }
