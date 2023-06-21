@@ -89,6 +89,7 @@ export class UserPrismaRepository implements UserRepository {
 
 		return user;
 	}
+
 	async findByPhoneNumber(phoneNumber: string): Promise<User> {
 		const user = await this.prisma.user.findUnique({
 			where: { phoneNumber, },
@@ -100,8 +101,5 @@ export class UserPrismaRepository implements UserRepository {
 	async delete(id: number): Promise<void> {
 		await this.prisma.user.delete({where: { id, }, });
 	}
-}
-function plainToIstance(user: { name: string; email: string; password: string; cpf: string; phoneNumber: string; birthdate: string; description: string; isSeller: boolean; }, userCreated: User): User | PromiseLike<User> {
-	throw new Error("Function not implemented.");
 }
 
