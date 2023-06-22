@@ -59,6 +59,7 @@ export class UserPrismaRepository implements UserRepository {
 						imageUrl: true,
 					},
 				},
+				seller: true,
 			},
 			skip,
 			take,
@@ -68,7 +69,7 @@ export class UserPrismaRepository implements UserRepository {
 
 	async update(id: number, data: Partial<UpdateUserDto>): Promise<User> {
 		const updatedUser = await this.prisma.user.update({
-			where: {id,},
+			where: { id, },
 			data,
 		});
 
@@ -99,7 +100,7 @@ export class UserPrismaRepository implements UserRepository {
 	}
 
 	async delete(id: number): Promise<void> {
-		await this.prisma.user.delete({where: { id, }, });
+		await this.prisma.user.delete({ where: { id, }, });
 	}
 }
 
