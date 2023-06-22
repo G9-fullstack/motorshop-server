@@ -82,7 +82,7 @@ async function main() {
 				color: "Silver",
 				price: 20000,
 				description: "New Description Announce",
-				coverImage: "https://www.example.com/chevrolet-cruze.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 1,
 			},
 			{
@@ -95,7 +95,7 @@ async function main() {
 				color: "Red",
 				price: 15000,
 				description: "Used Car in Good Condition",
-				coverImage: "https://www.example.com/ford-fiesta.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 3,
 			},
 			{
@@ -108,7 +108,7 @@ async function main() {
 				color: "White",
 				price: 18000,
 				description: "Spacious Sedan with Low Mileage",
-				coverImage: "https://www.example.com/toyota-corolla.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 1,
 			},
 			{
@@ -121,7 +121,7 @@ async function main() {
 				color: "Black",
 				price: 22000,
 				description: "Sporty Hatchback with Turbocharged Engine",
-				coverImage: "https://www.example.com/vw-golf.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 1,
 			},
 			{
@@ -134,7 +134,7 @@ async function main() {
 				color: "Blue",
 				price: 17000,
 				description: "Compact Car with Low Mileage",
-				coverImage: "https://www.example.com/renault-kwid.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 3,
 			},
 			{
@@ -147,7 +147,7 @@ async function main() {
 				color: "Silver",
 				price: 20000,
 				description: "New Description Announce",
-				coverImage: "https://www.example.com/chevrolet-cruze.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 1,
 			},
 			{
@@ -160,7 +160,7 @@ async function main() {
 				color: "Red",
 				price: 15000,
 				description: "Used Car in Good Condition",
-				coverImage: "https://www.example.com/ford-fiesta.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 1,
 			},
 			{
@@ -173,7 +173,7 @@ async function main() {
 				color: "White",
 				price: 18000,
 				description: "Spacious Sedan with Low Mileage",
-				coverImage: "https://www.example.com/toyota-corolla.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 3,
 			},
 			{
@@ -186,7 +186,7 @@ async function main() {
 				color: "Black",
 				price: 22000,
 				description: "Sporty Hatchback with Turbocharged Engine",
-				coverImage: "https://www.example.com/vw-golf.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 1,
 			},
 			{
@@ -199,7 +199,7 @@ async function main() {
 				color: "Blue",
 				price: 17000,
 				description: "Compact Car with Low Mileage",
-				coverImage: "https://www.example.com/renault-kwid.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 1,
 			},
 			{
@@ -212,7 +212,7 @@ async function main() {
 				color: "Silver",
 				price: 20000,
 				description: "New Description Announce",
-				coverImage: "https://www.example.com/chevrolet-cruze.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 1,
 			},
 			{
@@ -225,7 +225,7 @@ async function main() {
 				color: "Silver",
 				price: 20000,
 				description: "New Description Announce",
-				coverImage: "https://www.example.com/chevrolet-cruze.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 1,
 			},
 			{
@@ -238,7 +238,7 @@ async function main() {
 				color: "Silver",
 				price: 20000,
 				description: "New Description Announce",
-				coverImage: "https://www.example.com/chevrolet-cruze.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 3,
 			},
 			{
@@ -251,7 +251,7 @@ async function main() {
 				color: "Silver",
 				price: 20000,
 				description: "New Description Announce",
-				coverImage: "https://www.example.com/chevrolet-cruze.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 3,
 			},
 			{
@@ -264,7 +264,7 @@ async function main() {
 				color: "Silver",
 				price: 20000,
 				description: "New Description Announce",
-				coverImage: "https://www.example.com/chevrolet-cruze.jpg",
+				coverImage: "https://raw.githubusercontent.com/G9-fullstack/motorshop-app/f98a132cb61f680ab1561df9cf8ad60b3bd44409/public/example-car.png",
 				sellerId: 1,
 			}
 		],
