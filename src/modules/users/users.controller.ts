@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from "@nestjs/common";
-import { Request as ExpressRequest } from "express";
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Query } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import * as Express from "express";
 
 @Controller("users")
 export class UsersController {
@@ -12,6 +12,11 @@ export class UsersController {
 	@Post()
 	create(@Body() createUserDto: CreateUserDto) {
 		return this.usersService.create(createUserDto);
+	}
+
+	@Get(":id/infos")
+	async getInfo(@Param("id") id: string) {
+		return await this.usersService.getInfo(+id);
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -26,15 +31,25 @@ export class UsersController {
 		return this.usersService.findOne(+id);
 	}
 
+	@Get(":id/announces")
+	async findAnnounces(
+		@Request() req: Express.Request,
+		@Param("id") id: string,
+		@Query("page") page = 1,
+		@Query("perPage") limit = 12
+	) {
+		return await this.usersService.findAnnounces(+id, Number(page), Number(limit));
+	}
+
 	@UseGuards(JwtAuthGuard)
 	@Patch(":id")
-	update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto, @Request() req: ExpressRequest) {
+	update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto, @Request() req: Express.Request) {
 		return this.usersService.update(+id, updateUserDto, req.user);
 	}
 
 	@UseGuards(JwtAuthGuard)
 	@Delete(":id")
-	remove(@Param("id") id: string, @Request() req: ExpressRequest) {
+	remove(@Param("id") id: string, @Request() req: Express.Request) {
 		return this.usersService.remove(+id, req.user);
 	}
 }
