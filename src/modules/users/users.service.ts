@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ConflictException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
+import { ConflictException, ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserRepository } from "./repositories/user.repository";
@@ -31,6 +31,12 @@ export class UsersService {
 		return await this.userRepository.create(createUserDto);
 	}
 
+	async getInfo(id: number) {
+		const user = await this.userRepository.getInfo(id);
+		if (!user) throw new NotFoundException("User not found");
+		return user;
+	}
+
 	async findAll() {
 		return "This action returns all users";
 	}
@@ -39,6 +45,27 @@ export class UsersService {
 		return await this.userRepository.findOne(id);
 	}
 
+	async findAnnounces(id: number, page = 1, limit = 12) {
+		const user = await this.userRepository.findOne(id);
+		if (!user.isSeller) throw new UnauthorizedException("User is not a seller");
+
+		const skip = (page - 1) * limit;
+		const data = await this.userRepository.findAnnounces(id, skip, limit);
+
+		const totalCount = data.length;
+		const totalPages = Math.ceil(totalCount / limit);
+		const baseUrl = `http://localhost:${process.env.APP_PORT || 3001}/users/${id}/announces`;
+		const prevPage = page === 1 || page > totalPages + 1 ? null : `${baseUrl}?page=${page - 1}&perPage=${limit}`;
+		const nextPage = page >= totalPages ? null : `${baseUrl}?page=${page + 1}&perPage=${limit}`;
+		const currentPage = page;
+		return {
+			prevPage,
+			nextPage,
+			currentPage,
+			totalCount,
+			data,
+		};
+	}
 
 	async findByEmail(email: string) {
 		const user = await this.userRepository.findByEmail(email);

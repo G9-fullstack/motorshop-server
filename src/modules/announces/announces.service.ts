@@ -17,30 +17,23 @@ export class AnnouncesService {
 		return await this.announceRepository.create(createAnnounceDto, userInfo.id);
 	}
 
-	async findAll(baseUrl: string, page: number) {
-		if (page <= 0 || !Number.isInteger(page)) {
-			page = 1;
-		}
+	async findAll(url: string, page = 1, limit = 12) {
+		const skip = (page - 1) * limit;
+		const data = await this.announceRepository.findAll(skip, limit);
 
-		const perPage = 12;
-
-		const announces = await this.announceRepository.findAll(page);
-
-		const count = await this.announceRepository.count();
-		const maxPage = Math.ceil(count/perPage);
-
-		//Remover essas duas linhas debaixo após o projeto subir para produção.
-		const PORT = process.env.APP_PORT || 3001;
-		baseUrl = baseUrl.concat(`:${PORT}`);
-
-		const prevPage = page === 1 || page > maxPage + 1 ? null : `${baseUrl}/users?page=${page - 1}&perPage=${perPage}`;
-		const nextPage = page >= maxPage ? null : `${baseUrl}/users?page=${page + 1}&perPage=${perPage}`;
+		const totalCount = data.length;
+		const totalPages = Math.ceil(totalCount / limit);
+		const baseUrl = `${url}:${process.env.APP_PORT || 3001}/announces`;
+		const prevPage = page === 1 || page > totalPages + 1 ? null : `${baseUrl}?page=${page - 1}&perPage=${limit}`;
+		const nextPage = page >= totalPages ? null : `${baseUrl}?page=${page + 1}&perPage=${limit}`;
+		const currentPage = page;
 
 		return {
 			prevPage,
 			nextPage,
-			count,
-			data: announces,
+			currentPage,
+			totalCount,
+			data,
 		};
 	}
 
