@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ConflictException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -45,7 +46,6 @@ export class UsersService {
 		return user;
 	}
 
-
 	async update(id: number, updateUserDto: UpdateUserDto, userInfo: any) {
 		if (id !== userInfo.id) {
 			throw new ForbiddenException();
@@ -54,6 +54,7 @@ export class UsersService {
 		console.log(updateUserDto);
 
 		const userFound = await this.userRepository.findOne(id);
+
 		if (!userFound) {
 			throw new NotFoundException("User not found");
 		}
@@ -63,13 +64,14 @@ export class UsersService {
 		const phoneNumberExists = await this.userRepository.findByPhoneNumber(updateUserDto.phoneNumber);
 
 
-		if(emailExists && emailExists.id !== id){
+
+		if (emailExists && emailExists.id !== id && emailExists.id !== userFound.id) {
 			throw new ConflictException("Email already exists");
 		}
-		if(cpfExists && cpfExists.id !== id){
+		if (cpfExists && cpfExists.id !== id && cpfExists.id !== userFound.id) {
 			throw new ConflictException("CPF number already exists");
 		}
-		if(phoneNumberExists && phoneNumberExists.id !== id){
+		if (phoneNumberExists && phoneNumberExists.id !== id && phoneNumberExists.id !== userFound.id) {
 			throw new ConflictException("Phone number already  exists");
 		}
 
