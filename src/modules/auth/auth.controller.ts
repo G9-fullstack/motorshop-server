@@ -20,4 +20,7 @@ export class AuthController {
 	async getProfile(@Req() request: Request) {
 		return await this.authService.validateToken(request.user);
 	}
+
+
+
 }

@@ -1,13 +1,16 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { compare } from "bcryptjs";
+import { compare, hashSync } from "bcryptjs";
 import { UsersService } from "../users/users.service";
+import { randomUUID } from "node:crypto";
+import { MailService } from "../users/sendEmail.service";
 
 @Injectable()
 export class AuthService {
 	constructor(
 		private usersService: UsersService,
 		private jwtService: JwtService
+
 	) { }
 
 	async validateUser(userEmail: string, userPassword: string) {
@@ -51,4 +54,5 @@ export class AuthService {
 			isSeller: userFound.isSeller,
 		};
 	}
+
 }

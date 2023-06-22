@@ -37,6 +37,7 @@ CREATE TABLE "users" (
     "phoneNumber" VARCHAR(11) NOT NULL,
     "birthdate" VARCHAR(10) NOT NULL,
     "description" TEXT NOT NULL,
+    "tokenReset" TEXT,
     "isSeller" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "addressId" INTEGER NOT NULL,

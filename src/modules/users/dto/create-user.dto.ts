@@ -1,5 +1,5 @@
 import { Transform, Type } from "class-transformer";
-import { IsBoolean, IsDateString, IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength, ValidateNested } from "class-validator";
+import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength, ValidateNested, isString } from "class-validator";
 import { hashSync } from "bcryptjs";
 import { CreateAddressDto } from "./create-address.dto";
 
@@ -39,6 +39,10 @@ export class CreateUserDto {
 	@IsString()
 	@IsNotEmpty()
 		description: string;
+
+	@IsOptional()
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		tokenReset: string;
 
 	@IsBoolean()
 	@IsOptional()

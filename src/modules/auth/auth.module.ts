@@ -16,6 +16,7 @@ import { LocalStrategy } from "./local.strategy";
 			secret: process.env.SECRET_KEY,
 			signOptions: { expiresIn: "24h", },
 		})
+
 	],
 	controllers: [AuthController],
 	providers: [AuthService, LocalStrategy, JwtStrategy],

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { plainToClass } from "class-transformer";
+import { plainToClass, plainToInstance } from "class-transformer";
 import { PrismaService } from "src/server/prisma.service";
 import { CreateUserDto } from "../../dto/create-user.dto";
 import { UpdateUserDto } from "../../dto/update-user.dto";
@@ -34,13 +34,19 @@ export class UserPrismaRepository implements UserRepository {
 		return await this.prisma.user.findFirst({ where: { id, }, include: { address: true, }, });
 	}
 
+	// async findByToken(tokenReset: string): Promise<User> {
+	// 	return await this.prisma.user.findUnique({
+	// 		where: {tokenReset, },
+	// 	});
+	// }
+
 	async update(id: number, data: Partial<UpdateUserDto>): Promise<User> {
 		const updatedUser = await this.prisma.user.update({
 			where: {id,},
 			data,
 		});
 
-		return updatedUser;
+		return plainToInstance(User, updatedUser);
 	}
 
 	async findByEmail(email: string): Promise<User> {
@@ -50,7 +56,6 @@ export class UserPrismaRepository implements UserRepository {
 
 		return user;
 	}
-
 	async findByCpf(cpf: string): Promise<User> {
 		const user = await this.prisma.user.findUnique({
 			where: { cpf, },
@@ -69,8 +74,5 @@ export class UserPrismaRepository implements UserRepository {
 	async delete(id: number): Promise<void> {
 		await this.prisma.user.delete({where: { id, }, });
 	}
-}
-function plainToIstance(user: { name: string; email: string; password: string; cpf: string; phoneNumber: string; birthdate: string; description: string; isSeller: boolean; }, userCreated: User): User | PromiseLike<User> {
-	throw new Error("Function not implemented.");
 }
 

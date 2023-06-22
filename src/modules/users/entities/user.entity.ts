@@ -9,6 +9,7 @@ export class User {
 		password: string;
 
 	cpf: string;
+	tokenReset?: string;
 	phoneNumber: string;
 	birthdate: string;
 	description: string;

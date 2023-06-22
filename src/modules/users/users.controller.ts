@@ -37,4 +37,17 @@ export class UsersController {
 	remove(@Param("id") id: string, @Request() req: ExpressRequest) {
 		return this.usersService.remove(+id, req.user);
 	}
+
+	@Post("/alter-password")
+	async sendEmailReset(@Body("email") email: string) {
+		return this.usersService.sendEmailPassword(email);
+	}
+
+	@Patch("/resetPassword/:token")
+	async resetPassword(
+	@Param("token") token: string,
+	@Body("password") password: string
+	) {
+		return this.usersService.resetPasswordOnDB(password, token);
+	}
 }
