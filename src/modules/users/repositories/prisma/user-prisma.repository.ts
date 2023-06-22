@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { plainToClass } from "class-transformer";
+import { plainToClass, plainToInstance } from "class-transformer";
 import { PrismaService } from "src/server/prisma.service";
 import { CreateUserDto } from "../../dto/create-user.dto";
 import { UpdateUserDto } from "../../dto/update-user.dto";
@@ -72,7 +72,7 @@ export class UserPrismaRepository implements UserRepository {
 			data,
 		});
 
-		return updatedUser;
+		return plainToInstance(User, updatedUser);
 	}
 
 	async findByEmail(email: string): Promise<User> {
@@ -82,7 +82,6 @@ export class UserPrismaRepository implements UserRepository {
 
 		return user;
 	}
-
 	async findByCpf(cpf: string): Promise<User> {
 		const user = await this.prisma.user.findUnique({
 			where: { cpf, },

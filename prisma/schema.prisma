@@ -48,6 +48,7 @@ model User {
   phoneNumber String   @unique @db.VarChar(11)
   birthdate   String   @db.VarChar(10)
   description String   @db.Text
+  tokenReset  String?
   isSeller    Boolean  @default(false)
   createdAt   DateTime @default(now())
 
