@@ -24,7 +24,7 @@ export class MailService {
 				html: text,
 			})
 			.then(() => {
-				console.log("email enviadfo");
+				console.log("email enviado");
 			})
 			.catch((err) => {
 				console.error(err);

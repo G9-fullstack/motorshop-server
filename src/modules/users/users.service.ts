@@ -149,10 +149,6 @@ export class UsersService {
 	async resetPasswordOnDB(password: string, tokenReset: string) {
 
 		const user = await this.prisma.user.findFirst({where: {tokenReset: tokenReset,},});
-
-		//acha o usario pelo cmapo de reserte------- e em seguida faz o update,
-		//o token de resete e aleatorio gerado la no frontented e enviado com parametro
-
 		if (!user) {
 			throw new NotFoundException("Usuário não encontrado");
 		}
@@ -160,8 +156,6 @@ export class UsersService {
 		const userInfo = {...user, password: hashSync(password, 10),};
 
 		return await this.update(user.id, userInfo, user);
-		//alter toke reset pra null
-		//nao ta rasheando a senha
 
 
 	}

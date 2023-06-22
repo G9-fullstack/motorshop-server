@@ -1,9 +1,8 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { compare, hashSync } from "bcryptjs";
+import { compare } from "bcryptjs";
 import { UsersService } from "../users/users.service";
-import { randomUUID } from "node:crypto";
-import { MailService } from "../users/sendEmail.service";
+
 
 @Injectable()
 export class AuthService {
