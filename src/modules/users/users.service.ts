@@ -10,21 +10,20 @@ import { hashSync } from "bcryptjs";
 
 @Injectable()
 export class UsersService {
-	constructor(private userRepository: UserRepository, private mailService: MailService, private prisma: PrismaService)
-	{}
+	constructor(private userRepository: UserRepository, private mailService: MailService, private prisma: PrismaService) { }
 
 	async create(createUserDto: CreateUserDto) {
 		const emailExists = await this.userRepository.findByEmail(createUserDto.email);
 		const cpfExists = await this.userRepository.findByCpf(createUserDto.cpf);
 		const phoneNumberExists = await this.userRepository.findByPhoneNumber(createUserDto.phoneNumber);
 
-		if(emailExists){
+		if (emailExists) {
 			throw new ConflictException("Email already exists");
 		}
-		if(cpfExists){
+		if (cpfExists) {
 			throw new ConflictException("CPF number already exists");
 		}
-		if(phoneNumberExists){
+		if (phoneNumberExists) {
 			throw new ConflictException("Phone number already  exists");
 		}
 
@@ -50,10 +49,9 @@ export class UsersService {
 		if (!user.isSeller) throw new UnauthorizedException("User is not a seller");
 
 		const skip = (page - 1) * limit;
-		const data = await this.userRepository.findAnnounces(id, skip, limit);
+		const { count, results, } = await this.userRepository.findAnnounces(id, skip, limit);
 
-		const totalCount = data.length;
-		const totalPages = Math.ceil(totalCount / limit);
+		const totalPages = Math.ceil(count / limit);
 		const baseUrl = `http://localhost:${process.env.APP_PORT || 3001}/users/${id}/announces`;
 		const prevPage = page === 1 || page > totalPages + 1 ? null : `${baseUrl}?page=${page - 1}&perPage=${limit}`;
 		const nextPage = page >= totalPages ? null : `${baseUrl}?page=${page + 1}&perPage=${limit}`;
@@ -62,8 +60,8 @@ export class UsersService {
 			prevPage,
 			nextPage,
 			currentPage,
-			totalCount,
-			data,
+			totalPages,
+			data: results,
 		};
 	}
 
@@ -134,7 +132,7 @@ export class UsersService {
 
 		await this.update(
 			user.id,
-			{...user, tokenReset,},
+			{ ...user, tokenReset, },
 			user
 
 		);
@@ -148,12 +146,12 @@ export class UsersService {
 	}
 	async resetPasswordOnDB(password: string, tokenReset: string) {
 
-		const user = await this.prisma.user.findFirst({where: {tokenReset: tokenReset,},});
+		const user = await this.prisma.user.findFirst({ where: { tokenReset: tokenReset, }, });
 		if (!user) {
 			throw new NotFoundException("Usuário não encontrado");
 		}
 
-		const userInfo = {...user, password: hashSync(password, 10),};
+		const userInfo = { ...user, password: hashSync(password, 10), };
 
 		return await this.update(user.id, userInfo, user);
 
