@@ -19,10 +19,9 @@ export class AnnouncesService {
 
 	async findAll(url: string, page = 1, limit = 12) {
 		const skip = (page - 1) * limit;
-		const data = await this.announceRepository.findAll(skip, limit);
+		const {count, results,} = await this.announceRepository.findAll(skip, limit);
 
-		const totalCount = data.length;
-		const totalPages = Math.ceil(totalCount / limit);
+		const totalPages = Math.ceil(count / limit);
 		const baseUrl = `${url}:${process.env.APP_PORT || 3001}/announces`;
 		const prevPage = page === 1 || page > totalPages + 1 ? null : `${baseUrl}?page=${page - 1}&perPage=${limit}`;
 		const nextPage = page >= totalPages ? null : `${baseUrl}?page=${page + 1}&perPage=${limit}`;
@@ -32,8 +31,8 @@ export class AnnouncesService {
 			prevPage,
 			nextPage,
 			currentPage,
-			totalCount,
-			data,
+			totalPages,
+			data: results,
 		};
 	}
 

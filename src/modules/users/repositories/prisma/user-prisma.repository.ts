@@ -48,23 +48,29 @@ export class UserPrismaRepository implements UserRepository {
 		return await this.prisma.user.findFirst({ where: { id, }, include: { address: true, }, });
 	}
 
-	async findAnnounces(id: number, skip: number, take: number): Promise<Announce[]> {
-		const result = await this.prisma.announce.findMany({
-			where: {
-				sellerId: id,
-			},
-			include: {
-				images: {
-					select: {
-						imageUrl: true,
-					},
+	async findAnnounces(id: number, skip: number, take: number): Promise<{ count: number; results: Announce[] }> {
+		const [results, count] = await Promise.all([
+			this.prisma.announce.findMany({
+				where: {
+					sellerId: id,
 				},
-				seller: true,
-			},
-			skip,
-			take,
-		});
-		return result;
+				include: {
+					images: {
+						select: {
+							imageUrl: true,
+						},
+					},
+					seller: true,
+				},
+				skip,
+				take,
+			}),
+			this.prisma.announce.count({
+				where: {
+					isActive: true,
+				},
+			})]);
+		return { count, results, };
 	}
 
 	async update(id: number, data: Partial<UpdateUserDto>): Promise<User> {

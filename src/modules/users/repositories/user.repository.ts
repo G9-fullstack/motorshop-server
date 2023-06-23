@@ -9,7 +9,7 @@ export abstract class UserRepository {
   abstract getInfo(id: number): Promise<{ id: number, name: string, description: string }>
   abstract findAll(): Promise<User[]>
   abstract findOne(id: number): Promise<User>
-  abstract findAnnounces(id: number, page: number, limit: number): Promise<Announce[]>
+  abstract findAnnounces(id: number, page: number, limit: number): Promise<{ count: number; results: Announce[] }>
   abstract findByEmail(email: string): Promise<User>;
   abstract findByCpf(cpf: string): Promise<User>;
   abstract findByPhoneNumber(phoneNumber: string): Promise<User>;
