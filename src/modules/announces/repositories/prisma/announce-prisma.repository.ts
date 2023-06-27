@@ -87,6 +87,20 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 						description: true,
 					},
 				},
+				comments: {
+					select: {
+						comment: true,
+						createdAt: true,
+						user: {
+							select: {
+								name: true,
+							},
+						},
+					},
+					orderBy: {
+						createdAt: "desc",
+					},
+				},
 			},
 		});
 		return announce;

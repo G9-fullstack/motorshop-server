@@ -10,9 +10,4 @@ export class CommentsService {
 	async create(userInfo: any, createCommentDto: CreateCommentDto, announceId: number ) {
 		return await this.commentRepository.create(userInfo.id, createCommentDto, announceId);
 	}
-
-	findAll() {
-		return "This action returns all comments";
-	}
 }
-
