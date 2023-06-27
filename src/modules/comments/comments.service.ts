@@ -7,7 +7,7 @@ import { CommentRepository } from "./repositories/comment.repository";
 export class CommentsService {
 	constructor(private commentRepository: CommentRepository) { }
 
-	async create(createCommentDto: CreateCommentDto, userInfo: any, announceId: any ) {
+	async create(userInfo: any, createCommentDto: CreateCommentDto, announceId: number ) {
 		return await this.commentRepository.create(userInfo.id, createCommentDto, announceId);
 	}
 

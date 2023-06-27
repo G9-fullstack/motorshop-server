@@ -4,14 +4,14 @@ import { CreateCommentDto } from "./dto/create-comment.dto";
 import * as Express from "express";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
+@UseGuards(JwtAuthGuard)
 @Controller("comments")
 export class CommentsController {
 	constructor(private readonly commentsService: CommentsService) {}
 
-	@UseGuards(JwtAuthGuard)
 	@Post(":id")
-	create(@Body() createCommentDto: CreateCommentDto, @Request() req: Express.Request, @Param("id") id: number) {
-		return this.commentsService.create(createCommentDto, req.user, id);
+	create(@Request() req: Express.Request, @Body() createCommentDto: CreateCommentDto, @Param("id") id: string) {
+		return this.commentsService.create(req.user, createCommentDto, +id);
 	}
 
 	@Get()
@@ -19,5 +19,3 @@ export class CommentsController {
 		return await this.commentsService.findAll();
 	}
 }
-
-
