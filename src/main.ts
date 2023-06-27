@@ -10,7 +10,6 @@ async function bootstrap() {
 		.setTitle("Motorshop API")
 		.setDescription("The Motorshop API is a RESTful API for managing motorshop data.")
 		.setVersion("1.0")
-		.addTag("cars", "The cars API")
 		.build();
 
 	const document = SwaggerModule.createDocument(app, config);

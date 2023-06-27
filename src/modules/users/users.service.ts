@@ -76,8 +76,6 @@ export class UsersService {
 			throw new ForbiddenException();
 		}
 
-		console.log(updateUserDto);
-
 		const userFound = await this.userRepository.findOne(id);
 
 		if (!userFound) {
@@ -87,8 +85,6 @@ export class UsersService {
 		const emailExists = await this.userRepository.findByEmail(updateUserDto.email);
 		const cpfExists = await this.userRepository.findByCpf(updateUserDto.cpf);
 		const phoneNumberExists = await this.userRepository.findByPhoneNumber(updateUserDto.phoneNumber);
-
-
 
 		if (emailExists && emailExists.id !== id && emailExists.id !== userFound.id) {
 			throw new ConflictException("Email already exists");
@@ -101,7 +97,6 @@ export class UsersService {
 		}
 
 		delete updateUserDto.isSeller;
-		//deletar tokenreset
 
 		return await this.userRepository.update(id, updateUserDto);
 	}
@@ -127,14 +122,12 @@ export class UsersService {
 			throw new NotFoundException("Usuário não encontrado");
 		}
 
-
 		const tokenReset = randomUUID();
 
 		await this.update(
 			user.id,
 			{ ...user, tokenReset, },
 			user
-
 		);
 
 		const resetPasswordTemplate = this.mailService.resetPassword(
