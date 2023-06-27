@@ -4,7 +4,7 @@ import { CreateAnnounceDto } from "./dto/create-announce.dto";
 import { UpdateAnnounceDto } from "./dto/update-announce.dto";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import * as Express from "express";
-import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiForbiddenResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiTags, PartialType, getSchemaPath } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiForbiddenResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags, PartialType, getSchemaPath } from "@nestjs/swagger";
 import { Announce } from "./entities/announce.entity";
 
 @ApiTags("announces")
@@ -12,6 +12,7 @@ import { Announce } from "./entities/announce.entity";
 export class AnnouncesController {
 	constructor(private readonly announcesService: AnnouncesService) { }
 
+	@ApiOperation({ summary: "Create a new announce", })
 	@ApiCreatedResponse({ description: "Announce created successfully", type: Announce, })
 	@ApiBody({ type: CreateAnnounceDto, })
 	@ApiBearerAuth()
@@ -21,6 +22,7 @@ export class AnnouncesController {
 		return this.announcesService.create(createAnnounceDto, req.user);
 	}
 
+	@ApiOperation({ summary: "Find all announces", })
 	@ApiOkResponse({
 		description: "Announces retrieved successfully", schema: {
 			type: "object",
@@ -56,6 +58,7 @@ export class AnnouncesController {
 		return await this.announcesService.findAll(baseUrl, Number(page), Number(limit));
 	}
 
+	@ApiOperation({ summary: "Find an announce by id", })
 	@ApiOkResponse({ description: "Announce retrieved successfully", type: Announce, })
 	@ApiNotFoundResponse({ description: "Announce not found", })
 	@Get(":id")
@@ -63,6 +66,7 @@ export class AnnouncesController {
 		return this.announcesService.findOne(+id);
 	}
 
+	@ApiOperation({ summary: "Update an announce", })
 	@ApiOkResponse({ description: "Announce updated successfully", type: Announce, })
 	@ApiNotFoundResponse({ description: "Announce not found", })
 	@ApiForbiddenResponse({ description: "Forbidden", })
@@ -74,6 +78,7 @@ export class AnnouncesController {
 		return this.announcesService.update(+id, updateAnnounceDto, req.user);
 	}
 
+	@ApiOperation({ summary: "Remove an announce", })
 	@ApiNoContentResponse()
 	@ApiNotFoundResponse({ description: "Announce not found", })
 	@ApiParam({ name: "id", type: String, })

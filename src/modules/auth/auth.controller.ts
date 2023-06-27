@@ -4,13 +4,14 @@ import { AuthService } from "./auth.service";
 import { LoginDto } from "./dto/login.dto";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 import { LocalAuthGuard } from "./local-auth.guard";
-import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 
-@ApiTags("Auth")
+@ApiTags("auth")
 @Controller()
 export class AuthController {
 	constructor(private readonly authService: AuthService) { }
 
+	@ApiOperation({ summary: "Login", })
 	@ApiOkResponse({
 		description: "User logged in successfully", schema: {
 			type: "object",
@@ -30,6 +31,7 @@ export class AuthController {
 		return this.authService.login(user.email);
 	}
 
+	@ApiOperation({ summary: "Get user profile", })
 	@ApiOkResponse({
 		description: "User profile retrieved successfully", schema: {
 			type: "object",
