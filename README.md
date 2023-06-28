@@ -1,73 +1,96 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+<h1 align="center">MotorShop</h1>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<blockquote>
+    <br>
+        <p>MotorShop is an application that allows the registration and management of regular users and car sellers. Sellers can create car ads for sale and manage their ads through a control panel. Users can register, buy available cars, visit the seller’s profile, and view detailed information about each ad, including description, photos, values, and comments. The home page displays cars recently added by sellers and offers various search filters.</p>
+    <br>
+</blockquote>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<blockquote>
+    
+This repository contains the code for the back-end of the application. The front-end code can be found in the [MotorShop repository](https://github.com/G9-fullstack/motorshop-app).
+    
+</blockquote>
 
-## Description
+<br>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<h2>Features</h2>
 
-## Installation
+- Secure registration and login system for regular users and car sellers;
+- Personal dashboard for sellers to manage their car ads;
+- Sellers can create, edit, and delete car ads;
+- Detailed information about each ad, including description, photos, values, and comments;
+- Home page displays cars recently added by sellers and offers various search filters;
+- Users can buy available cars and visit the seller’s profile;
+- Developed with modern technologies such as Nest.js, Prisma.js, TypeScript, and PostgreSQL.
 
-```bash
-$ yarn install
-```
+<br>
 
-## Running the app
+<h2>Live Version</h2>
 
-```bash
-# development
-$ yarn run start
+Visit the live version of the application hosted at [MotorShop - Website](https://undefined.undefined.app/) to see it in action.
 
-# watch mode
-$ yarn run start:dev
+<br>
 
-# production mode
-$ yarn run start:prod
-```
+<h2>Configuration</h2>
 
-## Test
+Before starting to use the project, it is necessary to configure some environment variables. Create a `.env` file in the root of the project with the following information:
 
-```bash
-# unit tests
-$ yarn run test
+~~~bash
+APP_PORT=<port>
+DATABASE_URL="postgresql://<username>:<password>@<host>:<port>/<database>?schema=public"
+SECRET_KEY=<secret_key>
+~~~
 
-# e2e tests
-$ yarn run test:e2e
+<br>
 
-# test coverage
-$ yarn run test:cov
-```
+<h2>Installation</h2>
 
-## Support
+Installing and running the project is easy and fast. Just follow these steps:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+1. Clone this repository to your local machine.
+2. Install dependencies: `yarn install`.
+3. Make sure you have a PostgreSQL database set up and update the DATABASE_URL variable in the .env file with your database information.
+4. Run `npx prisma migrate dev` to apply the database migrations.
+5. Start the development server by running `yarn dev`.
 
-## Stay in touch
+The application should now be running on` http://localhost:<port>`, where `<port>` is the value of the APP_PORT variable in the .env file.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+<br>
 
-## License
+<h2>Database Commands</h2>
 
-Nest is [MIT licensed](LICENSE).
+The project includes some commands for managing the database. Here is a list of available commands:
+
+- `npx prisma migrate dev --name <migration_name>`: generates a new migration with the specified name and applies it to the development database.
+- `npx prisma migrate dev`: applies pending migrations to the development database.
+- `npx prisma migrate reset`: resets the development database and applies all migrations from scratch.
+
+To use these commands, simply type the desired command into your terminal. For example:
+
+~~~bash
+npx prisma migrate dev --name create_users_table
+npx prisma migrate dev
+npx prisma migrate reset
+~~~
+
+<br>
+
+<h2>Technologies used</h2>
+
+- [Nest.js](https://nestjs.com/): progressive Node.js framework for building efficient and scalable server-side applications.
+- [Prisma.js](https://www.prisma.io/): next-generation ORM for Node.js and TypeScript.
+- [TypeScript](https://www.typescriptlang.org/): typed programming language that increases code productivity and readability.
+- [PostgreSQL](https://www.postgresql.org/): robust and reliable relational database management system.
+
+<br>
+
+<h2>Contributing</h2>
+
+To contribute to this project, please follow these guidelines:
+
+1. Fork the repository
+2. Create a new branch: `git checkout -b feat/yourFeatureName`
+3. Make your changes and commit them using Conventional Commits
+4. Push to the branch: `git push origin feat/yourFeatureName`
+5. Submit a pull request
