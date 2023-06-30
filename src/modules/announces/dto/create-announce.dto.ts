@@ -66,8 +66,9 @@ export class CreateAnnounceDto {
 
 	@ApiProperty({ description: "Announce's fuel", example: "Flex", })
 	@IsNotEmpty()
-	@IsEnum(Fuel)
-		fuel: Fuel;
+	// @IsEnum(Fuel)
+	// 	fuel: Fuel;
+		fuel: string;
 
 	@ApiProperty({ description: "Announce's color", example: "Blue", maxLength: 25, })
 	@IsString()

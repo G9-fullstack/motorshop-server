@@ -10,7 +10,7 @@ datasource db {
 model Image {
   id         Int      @id @default(autoincrement())
   imageUrl   String
-  announce   Announce @relation(fields: [announceId], references: [id])
+  announce   Announce @relation(fields: [announceId], references: [id], onDelete: Cascade)
   announceId Int
 
   @@map("images")
@@ -86,7 +86,7 @@ model Comment {
 	user User @relation(fields: [userId], references: [id])
 	userId Int
 
-	announce Announce @relation(fields: [announceId], references: [id])
+	announce Announce @relation(fields: [announceId], references: [id], onDelete: Cascade)
 	announceId Int
 	
 	@@map("comments")
