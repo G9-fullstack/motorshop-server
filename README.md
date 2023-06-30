@@ -28,7 +28,7 @@ This repository contains the code for the back-end of the application. The front
 
 <h2>Live Version</h2>
 
-Visit the live version of the application hosted at [MotorShop - Website](https://undefined.undefined.app/) to see it in action.
+Visit the live version of the application hosted at [MotorShop - Website](https://motorshop-app.vercel.app/) to see it in action.
 
 <br>
 
@@ -49,10 +49,10 @@ SECRET_KEY=<secret_key>
 Installing and running the project is easy and fast. Just follow these steps:
 
 1. Clone this repository to your local machine.
-2. Install dependencies: `yarn install`.
+2. Install dependencies: `yarn install` or `npm install`.
 3. Make sure you have a PostgreSQL database set up and update the DATABASE_URL variable in the .env file with your database information.
-4. Run `npx prisma migrate dev` to apply the database migrations.
-5. Start the development server by running `yarn dev`.
+4. Run `yarn prisma migrate dev` or `npx prisma migrate dev` to apply the database migrations.
+5. Start the development server by running `yarn dev` or `npm run dev`.
 
 The application should now be running on` http://localhost:<port>`, where `<port>` is the value of the APP_PORT variable in the .env file.
 
@@ -62,11 +62,11 @@ The application should now be running on` http://localhost:<port>`, where `<port
 
 The project includes some commands for managing the database. Here is a list of available commands:
 
-- `npx prisma migrate dev --name <migration_name>`: generates a new migration with the specified name and applies it to the development database.
-- `npx prisma migrate dev`: applies pending migrations to the development database.
-- `npx prisma migrate reset`: resets the development database and applies all migrations from scratch.
+- `prisma migrate dev --name <migration_name>`: generates a new migration with the specified name and applies it to the development database.
+- `prisma migrate dev`: applies pending migrations to the development database.
+- `prisma migrate reset`: resets the development database and applies all migrations from scratch.
 
-To use these commands, simply type the desired command into your terminal. For example:
+To use these commands, simply prefix the `prisma` command with your package manager (`yarn` or `npx`) and type the desired command into your terminal. For example:
 
 ~~~bash
 npx prisma migrate dev --name create_users_table
