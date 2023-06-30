@@ -85,6 +85,17 @@ npx prisma migrate reset
 
 <br>
 
+<h2>API Documentation</h2>
+
+The API documentation is available on Swagger. You can access it through the deploy link or locally on your computer.
+
+- Deploy link: https://motorshop-web-api.onrender.com/api
+- Localhost: `http://localhost:<port>/api`
+
+Replace `<port>` with the value of the APP_PORT variable in the .env file.
+
+<br>
+
 <h2>Contributing</h2>
 
 To contribute to this project, please follow these guidelines:
