@@ -8,6 +8,9 @@
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
+  "engines": {
+		"node": ">=16 <17"
+	},
   "scripts": {
     "build": "nest build",
     "start": "nest start",
@@ -75,9 +78,6 @@
       "json",
       "ts"
     ],
-	"engines": {
-		"node": ">=16 <17"
-	},
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
