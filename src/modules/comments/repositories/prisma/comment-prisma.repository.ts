@@ -3,6 +3,7 @@ import { CreateCommentDto } from "../../dto/create-comment.dto";
 import { Comment } from "../../entities/comment.entity";
 import { CommentRepository } from "../comment.repository";
 import { PrismaService } from "src/server/prisma.service";
+import { UpdateCommentDto } from "../../dto/update-announce.dto";
 
 
 @Injectable()
@@ -41,6 +42,15 @@ export class CommentPrismaRepository implements CommentRepository {
 					},
 				},
 			},
+		});
+	}
+
+	async update(commentId: number, data: UpdateCommentDto): Promise<Comment> {
+		return await this.prismaService.comment.update({
+			where: {
+				id: commentId,
+			},
+			data,
 		});
 	}
 
