@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Request, UseGuards, Param } from "@nestjs/common";
+import { Controller, Post, Body, Request, UseGuards, Param, Delete, HttpCode, Get } from "@nestjs/common";
 import { CommentsService } from "./comments.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { ApiBody, ApiCreatedResponse, ApiOperation, ApiProperty, ApiTags } from "@nestjs/swagger";
@@ -25,5 +25,16 @@ export class CommentsController {
 	@Post()
 	create(@Request() req: Express.Request, @Body() createCommentDto: CreateCommentDto, @Param("id") id: string) {
 		return this.commentsService.create(req.user, createCommentDto, +id);
+	}
+
+	@Get()
+	async findAll(@Param("id") id: string) {
+		return await this.commentsService.findAll(+id);
+	}
+
+	@HttpCode(204)
+	@Delete(":commentId")
+	delete(@Request() req: Express.Request, @Param("commentId") commentId: string) {
+		this.commentsService.delete(req.user, +commentId);
 	}
 }
