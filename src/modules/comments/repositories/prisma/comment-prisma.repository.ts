@@ -3,6 +3,7 @@ import { CreateCommentDto } from "../../dto/create-comment.dto";
 import { Comment } from "../../entities/comment.entity";
 import { CommentRepository } from "../comment.repository";
 import { PrismaService } from "src/server/prisma.service";
+import { UpdateCommentDto } from "../../dto/update-announce.dto";
 
 
 @Injectable()
@@ -21,5 +22,43 @@ export class CommentPrismaRepository implements CommentRepository {
 		});
 
 		return commentCreated;
+	}
+
+	async findAll(announceId: number): Promise<Comment[]> {
+		return await this.prismaService.comment.findMany({
+			where: { announceId, },
+		});
+	}
+
+	async findOne(commentId: number): Promise<Comment & { user: { id: number } }> {
+		return await this.prismaService.comment.findUnique({
+			where: {
+				id: commentId,
+			},
+			include: {
+				user: {
+					select: {
+						id: true,
+					},
+				},
+			},
+		});
+	}
+
+	async update(commentId: number, data: UpdateCommentDto): Promise<Comment> {
+		return await this.prismaService.comment.update({
+			where: {
+				id: commentId,
+			},
+			data,
+		});
+	}
+
+	async delete(commentId: number): Promise<void> {
+		await this.prismaService.comment.delete({
+			where: {
+				id: commentId,
+			},
+		});
 	}
 }
