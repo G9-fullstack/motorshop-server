@@ -89,6 +89,7 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 				},
 				comments: {
 					select: {
+						id: true,
 						comment: true,
 						createdAt: true,
 						user: {
