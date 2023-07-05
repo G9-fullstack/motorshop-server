@@ -85,6 +85,7 @@ export class AnnouncePrismaRepository implements AnnounceRepository {
 					select: {
 						name: true,
 						description: true,
+						phoneNumber: true,
 					},
 				},
 				comments: {
